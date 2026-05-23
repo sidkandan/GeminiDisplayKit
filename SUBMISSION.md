@@ -6,7 +6,9 @@
 
 **Repo (public):** https://github.com/sidkandan/GeminiFlashMetaDisplays
 
-**Demo:** Live, on stage — `npx gfmd create` → glasses HUD in under 90 seconds. 1-minute video per [`DEMO-RUNBOOK.md`](DEMO-RUNBOOK.md) and [`docs/video-script.md`](docs/video-script.md). Two live-demo examples reachable via QR.
+**Demo video (1-minute):** https://youtube.com/shorts/6Gl1k9jtep4
+
+**Live demo:** On stage — `npx gfmd create` → glasses HUD in under 90 seconds. See [`DEMO-RUNBOOK.md`](DEMO-RUNBOOK.md) and [`docs/video-script.md`](docs/video-script.md). Two live-demo examples reachable via QR.
 
 ## What it is
 

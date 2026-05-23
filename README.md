@@ -4,7 +4,9 @@
 
 Ship a smart-glasses game in minutes — one command scaffolds a 600×600 HUD, a Gemini bridge with **managed agents / Nano Banana / Lyria / Veo / Flash multimodal** wired in, a Cloudflare tunnel, and the `fb-viewapp://` install QR your phone needs to load it on the glasses.
 
-> **Built live at the Google I/O Hackathon — Cerebral Valley, 2026-05-23.** 100% new work, written during the event. Three working games included as examples. See [`docs/built-during-hackathon.md`](docs/built-during-hackathon.md) for the provenance ledger.
+> **Built live at the Google I/O Hackathon — Cerebral Valley, 2026-05-23.** 100% new work, written during the event. Three working games included as examples. See [`PROVENANCE.md`](PROVENANCE.md) for the file-by-file ledger.
+
+**📺 1-minute demo video:** https://youtube.com/shorts/6Gl1k9jtep4
 
 ---
 
