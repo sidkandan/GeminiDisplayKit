@@ -148,7 +148,7 @@ async function handleRequest(req, res, ctx) {
       headers: req.headers,
     });
     if (res.headersSent) return; // handler wrote directly
-    return sendJson(res, result?.__status || 200, result ?? { ok: true });
+    return sendResult(res, result);
   }
 
   if (method === "GET") return serveStatic(req, res, ctx.displayDir);
@@ -241,6 +241,40 @@ function sendJson(res, status, payload) {
     "cache-control": "no-store",
   });
   res.end(JSON.stringify(payload));
+}
+
+/**
+ * sendResult — universal route-handler response writer.
+ *
+ * - Buffer return → raw bytes with `result.__contentType` (or
+ *   "application/octet-stream"). Useful for images, video, HTML.
+ * - undefined return → 200 with `{ ok: true }`.
+ * - Any other object → JSON-encode. `result.__status` (if present)
+ *   sets the HTTP status; both `__status` and `__contentType` are
+ *   stripped from the JSON body.
+ */
+function sendResult(res, result) {
+  if (res.headersSent) return;
+  if (result === undefined || result === null) {
+    return sendJson(res, 200, { ok: true });
+  }
+  if (Buffer.isBuffer(result)) {
+    const status = result.__status || 200;
+    const contentType = result.__contentType || "application/octet-stream";
+    res.writeHead(status, {
+      "content-type": contentType,
+      "cache-control": "no-store",
+      "content-length": result.length,
+    });
+    return res.end(result);
+  }
+  // Plain object — JSON
+  const status = result.__status || 200;
+  const body = { ...result };
+  delete body.__status;
+  delete body.__contentType;
+  delete body.__headers;
+  return sendJson(res, status, body);
 }
 
 function loadDotEnv(filePath) {

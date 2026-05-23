@@ -69,7 +69,7 @@
     beat: document.getElementById('beat'),
     loading: document.getElementById('loading'),
   };
-  let state = 'begin';                 // begin | intro | play
+  let state = 'init';                  // init | intro | play
   let choices = [], active = 0, seq = -1, committing = false, looping = false;
 
   function renderChoices(){
@@ -118,26 +118,30 @@
     if (!looping){ looping = true; load(); setInterval(load, 1400); }
   }
   function startIntro(){
+    if (state !== 'init') return;
     state = 'intro';
     els.begin.style.display = 'none';
+    els.intro.muted = true;            // muted autoplay is allowed WITHOUT a gesture → reliable on-glasses
+    els.intro.setAttribute('playsinline','');
     els.intro.style.display = 'block';
     els.intro.src = '/scene-video';
     els.intro.onended = startPlay;
-    els.intro.onerror = startPlay;                    // no clip yet → straight to scene
+    els.intro.onerror = startPlay;     // no clip / can't decode → straight to the story
     const p = els.intro.play();
-    if (p && p.catch) p.catch(() => startPlay());     // autoplay blocked → skip
-    setTimeout(() => { if (state === 'intro' && (!els.intro.duration || els.intro.ended)) startPlay(); }, 12000);
+    if (p && p.catch) p.catch(() => startPlay());
+    setTimeout(() => { if (state === 'intro') startPlay(); }, 11000);  // hard cap (8s clip + buffer)
   }
 
   // --- Neural Band (arrows = swipe, Enter/pinch = commit) ---
   document.addEventListener('keydown', (e) => {
-    if (state === 'begin'){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); startIntro(); } return; }
-    if (state === 'intro'){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); startPlay(); } return; } // skip
+    if (state === 'intro'){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); startPlay(); } return; } // skip cinematic
+    if (state !== 'play') return;
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); setActive(active + 1); }
     else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); setActive(active - 1); }
     else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); commit(); }
   });
-  els.begin.addEventListener('click', () => { if (state === 'begin') startIntro(); else if (state === 'intro') startPlay(); });
+  document.addEventListener('click', () => { if (state === 'intro') startPlay(); });   // tap anywhere to skip the cinematic
+  startIntro();   // auto-play the opening cinematic (muted) on load, then the story
 })();
 </script>
 </body>

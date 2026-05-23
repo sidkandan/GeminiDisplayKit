@@ -22,6 +22,8 @@ let levelDurationSeconds = 30;
 const noteTravelTime = 1.8; // seconds from center to target ring; keeps trainer notes readable
 const targetDepth = 0.83; // depth where hit zone is centered (radius = 200px)
 const maxRadius = 240; // max radius of the tunnel
+const hitZoneStartProgress = 2 / 3; // final third of the lane path is swipeable
+const hitZoneEndProgress = 1.18; // small post-target grace before a miss
 let perfectRange = 0.22; // +/- seconds from perfect time (wide trainer window)
 let goodRange = 0.45; // +/- seconds from perfect time (wide trainer window)
 let recoveryActiveUntil = 0; // recovery indicator timestamp
@@ -48,6 +50,11 @@ let nextSynthBeatTime = 0.0;
 let synthBeatIndex = 0;
 const lookahead = 25.0; // ms
 const scheduleAheadTime = 0.1; // seconds
+let melodyLayer = 0;
+let melodyEnergy = 0;
+const maxMelodyLayers = 5;
+const melodyScale = [220.00, 261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99, 880.00, 1046.50];
+const laneMelodyRoots = { left: 0, down: 2, up: 4, right: 5, shield: 3 };
 
 // Remote API & EventSource state
 let sseConnection = null;
@@ -123,6 +130,7 @@ function approachForAngle(angle) {
 
 function bearingLabel(note) {
   const delta = angleDeltaDeg(note.worldAngleDeg || 0, headYawDeg);
+  if (noteIsInSwipeZone(note)) return `${note.lane.toUpperCase()} SWIPE`;
   if (Math.abs(delta) <= hitConeDeg / 2) return `${note.lane.toUpperCase()} IN ZONE`;
   const turn = delta > 0 ? 'RIGHT' : 'LEFT';
   return `${turn} ${Math.round(Math.abs(delta))}`;
@@ -130,6 +138,41 @@ function bearingLabel(note) {
 
 function noteIsFacing(note, cone = hitConeDeg) {
   return Math.abs(angleDeltaDeg(note.worldAngleDeg || 0, headYawDeg)) <= cone / 2;
+}
+
+function noteApproachProgress(note, now = elapsedGameTime) {
+  const secondsToTarget = Number(note.time || 0) - now;
+  return clamp(1 - (secondsToTarget / previewTravelTime), 0, 1.35);
+}
+
+function noteScreenDepth(note, now = elapsedGameTime) {
+  return clamp((noteApproachProgress(note, now) * targetDepth) + depthNudge, 0.05, 1.16);
+}
+
+function noteHitProgress(note, now = elapsedGameTime) {
+  return noteScreenDepth(note, now) / targetDepth;
+}
+
+function noteIsInSwipeZone(note) {
+  const progress = noteHitProgress(note);
+  return progress >= hitZoneStartProgress
+    && progress <= hitZoneEndProgress
+    && noteIsFacing(note, hitConeDeg);
+}
+
+function ratingForHitProgress(progress) {
+  if (Math.abs(1 - progress) <= 0.16) {
+    return { rating: 'PERFECT', ratingClass: 'perfect', pointAward: 100, healthBonus: 5 };
+  }
+  return { rating: 'GOOD', ratingClass: 'good', pointAward: 70, healthBonus: 2 };
+}
+
+function markNoteResolved(note, state) {
+  note[state] = true;
+  note.resolvedAt = elapsedGameTime;
+  if (note.sourceNote) {
+    note.sourceNote[state] = true;
+  }
 }
 
 function setupHeadTracking() {
@@ -551,6 +594,20 @@ function playLaneAccent(lane, rating) {
 }
 
 // Fallback WebAudio Click Track / backing beat scheduler
+function startSynthScheduler(label) {
+  if (!audioCtx) return;
+  if (synthTimerId) clearTimeout(synthTimerId);
+  nextSynthBeatTime = audioCtx.currentTime + 0.05;
+  synthBeatIndex = 0;
+  scheduler();
+  backingTrackPlaying = true;
+  if (label) els.audioState.textContent = label;
+}
+
+function shouldPlayFoundationTrack() {
+  return !(useExternalAudio && externalAudioUrl);
+}
+
 function scheduler() {
   while (nextSynthBeatTime < audioCtx.currentTime + scheduleAheadTime) {
     scheduleSynthBeat(synthBeatIndex, nextSynthBeatTime);
@@ -562,95 +619,211 @@ function scheduler() {
 
 function scheduleSynthBeat(beatIndex, time) {
   const barBeat = (beatIndex % 4) + 1; // 1, 2, 3, 4 downbeats
+  const playFoundation = shouldPlayFoundationTrack();
   
-  // 1. Kick Drum (Beats 1 & 3)
-  if (barBeat === 1 || barBeat === 3) {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
+  if (playFoundation) {
+    // 1. Kick Drum (Beats 1 & 3)
+    if (barBeat === 1 || barBeat === 3) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      // Sub frequency sweep
+      osc.frequency.setValueAtTime(130, time);
+      osc.frequency.exponentialRampToValueAtTime(38, time + 0.12);
+      
+      gain.gain.setValueAtTime(0.28, time);
+      gain.gain.exponentialRampToValueAtTime(0.001, time + 0.14);
+      
+      osc.start(time);
+      osc.stop(time + 0.15);
+    }
     
-    // Sub frequency sweep
-    osc.frequency.setValueAtTime(130, time);
-    osc.frequency.exponentialRampToValueAtTime(38, time + 0.12);
+    // 2. Snare / Rim Clap (Beats 2 & 4)
+    if (barBeat === 2 || barBeat === 4) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      // Snare rimshot tone
+      osc.frequency.setValueAtTime(550, time);
+      osc.frequency.linearRampToValueAtTime(150, time + 0.08);
+      
+      gain.gain.setValueAtTime(0.18, time);
+      gain.gain.exponentialRampToValueAtTime(0.001, time + 0.09);
+      
+      osc.start(time);
+      osc.stop(time + 0.10);
+      
+      // Crisp white-noise splash (highpass sweep)
+      const snap = audioCtx.createOscillator();
+      const snapGain = audioCtx.createGain();
+      snap.type = 'sawtooth';
+      snap.frequency.setValueAtTime(4000, time);
+      snap.connect(snapGain);
+      snapGain.connect(audioCtx.destination);
+      snapGain.gain.setValueAtTime(0.05, time);
+      snapGain.gain.exponentialRampToValueAtTime(0.001, time + 0.04);
+      
+      snap.start(time);
+      snap.stop(time + 0.05);
+    }
     
-    gain.gain.setValueAtTime(0.28, time);
-    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.14);
+    // 3. Syncopated Hi-Hat (Every beat, played on the off-beat: time + half beat)
+    const hatTime = time + beatDuration / 2;
+    const hatOsc = audioCtx.createOscillator();
+    const hatGain = audioCtx.createGain();
+    hatOsc.type = 'square';
+    hatOsc.frequency.setValueAtTime(10000, hatTime);
+    hatOsc.connect(hatGain);
+    hatGain.connect(audioCtx.destination);
     
-    osc.start(time);
-    osc.stop(time + 0.15);
-  }
-  
-  // 2. Snare / Rim Clap (Beats 2 & 4)
-  if (barBeat === 2 || barBeat === 4) {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'triangle';
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
+    // Offbeats hi-hat is slightly accented on Beats 2 & 4
+    const hatVolume = (barBeat === 2 || barBeat === 4) ? 0.035 : 0.022;
+    hatGain.gain.setValueAtTime(hatVolume, hatTime);
+    hatGain.gain.exponentialRampToValueAtTime(0.001, hatTime + 0.035);
     
-    // Snare rimshot tone
-    osc.frequency.setValueAtTime(550, time);
-    osc.frequency.linearRampToValueAtTime(150, time + 0.08);
-    
-    gain.gain.setValueAtTime(0.18, time);
-    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.09);
-    
-    osc.start(time);
-    osc.stop(time + 0.10);
-    
-    // Crisp white-noise splash (highpass sweep)
-    const snap = audioCtx.createOscillator();
-    const snapGain = audioCtx.createGain();
-    snap.type = 'sawtooth';
-    snap.frequency.setValueAtTime(4000, time);
-    snap.connect(snapGain);
-    snapGain.connect(audioCtx.destination);
-    snapGain.gain.setValueAtTime(0.05, time);
-    snapGain.gain.exponentialRampToValueAtTime(0.001, time + 0.04);
-    
-    snap.start(time);
-    snap.stop(time + 0.05);
-  }
-  
-  // 3. Syncopated Hi-Hat (Every beat, played on the off-beat: time + half beat)
-  const hatTime = time + beatDuration / 2;
-  const hatOsc = audioCtx.createOscillator();
-  const hatGain = audioCtx.createGain();
-  hatOsc.type = 'square';
-  hatOsc.frequency.setValueAtTime(10000, hatTime);
-  hatOsc.connect(hatGain);
-  hatGain.connect(audioCtx.destination);
-  
-  // Offbeats hi-hat is slightly accented on Beats 2 & 4
-  const hatVolume = (barBeat === 2 || barBeat === 4) ? 0.035 : 0.022;
-  hatGain.gain.setValueAtTime(hatVolume, hatTime);
-  hatGain.gain.exponentialRampToValueAtTime(0.001, hatTime + 0.035);
-  
-  hatOsc.start(hatTime);
-  hatOsc.stop(hatTime + 0.04);
+    hatOsc.start(hatTime);
+    hatOsc.stop(hatTime + 0.04);
 
-  // 4. Bass synth loop in A Minor
-  let bassFreq1 = 110.00; // A2 default
-  let bassFreq2 = 0;
-  
-  if (barBeat === 1) {
-    bassFreq1 = 110.00; // A2
-  } else if (barBeat === 2) {
-    bassFreq1 = 110.00; // A2
-    bassFreq2 = 82.41;   // E2 on offbeat
-  } else if (barBeat === 3) {
-    bassFreq1 = 98.00;  // G2
-  } else if (barBeat === 4) {
-    bassFreq1 = 110.00; // A2
-    bassFreq2 = 130.81;  // C3 on offbeat
+    // 4. Bass synth loop in A Minor
+    let bassFreq1 = 110.00; // A2 default
+    let bassFreq2 = 0;
+    
+    if (barBeat === 1) {
+      bassFreq1 = 110.00; // A2
+    } else if (barBeat === 2) {
+      bassFreq1 = 110.00; // A2
+      bassFreq2 = 82.41;   // E2 on offbeat
+    } else if (barBeat === 3) {
+      bassFreq1 = 98.00;  // G2
+    } else if (barBeat === 4) {
+      bassFreq1 = 110.00; // A2
+      bassFreq2 = 130.81;  // C3 on offbeat
+    }
+
+    // Play bass note 1
+    playBassNote(bassFreq1, time);
+    // Play bass note 2 on offbeat if scheduled
+    if (bassFreq2 > 0) {
+      playBassNote(bassFreq2, time + beatDuration / 2);
+    }
   }
 
-  // Play bass note 1
-  playBassNote(bassFreq1, time);
-  // Play bass note 2 on offbeat if scheduled
-  if (bassFreq2 > 0) {
-    playBassNote(bassFreq2, time + beatDuration / 2);
+  scheduleMelodyLayers(beatIndex, time, barBeat);
+}
+
+function melodyFrequency(index) {
+  const length = melodyScale.length;
+  const wrapped = ((index % length) + length) % length;
+  const octave = Math.floor(index / length);
+  return melodyScale[wrapped] * Math.pow(2, octave);
+}
+
+function playMelodyNote(freq, startTime, duration = 0.22, type = 'triangle', gain = 0.05) {
+  if (!audioCtx || !Number.isFinite(freq)) return;
+  const osc = audioCtx.createOscillator();
+  const amp = audioCtx.createGain();
+  const filter = audioCtx.createBiquadFilter();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, startTime);
+  filter.type = 'lowpass';
+  filter.Q.setValueAtTime(1.6, startTime);
+  filter.frequency.setValueAtTime(3200, startTime);
+  osc.connect(amp);
+  amp.connect(filter);
+  filter.connect(audioCtx.destination);
+  amp.gain.setValueAtTime(0, startTime);
+  amp.gain.linearRampToValueAtTime(gain, startTime + 0.012);
+  amp.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+  osc.start(startTime);
+  osc.stop(startTime + duration + 0.04);
+}
+
+function playMelodyChord(freqs, startTime, duration = 0.8, gain = 0.035) {
+  freqs.forEach((freq, index) => {
+    playMelodyNote(freq, startTime + index * 0.006, duration, index % 2 ? 'sine' : 'triangle', gain / Math.max(1, freqs.length));
+  });
+}
+
+function boostMelodyStack(lane, ratingClass) {
+  const add = ratingClass === 'perfect' ? 2 : 1;
+  melodyLayer = Math.min(maxMelodyLayers, melodyLayer + add);
+  melodyEnergy = Math.min(1, melodyEnergy + 0.26 + add * 0.06);
+  playMelodicReward(lane, ratingClass, melodyLayer);
+  els.audioState.textContent = melodyLayer >= maxMelodyLayers ? 'FULL MELODY' : `LAYER ${melodyLayer}`;
+}
+
+function softenMelodyStack() {
+  melodyLayer = Math.max(0, melodyLayer - 1);
+  melodyEnergy = Math.max(0, melodyEnergy - 0.3);
+}
+
+function playMelodicReward(lane, ratingClass, layer) {
+  if (!audioCtx) return;
+  const now = audioCtx.currentTime;
+  const rootIndex = laneMelodyRoots[lane] ?? 0;
+  const steps = [0, 2, 4, 7, 9].slice(0, Math.max(1, layer));
+  const baseGain = ratingClass === 'perfect' ? 0.07 : 0.052;
+  steps.forEach((step, index) => {
+    playMelodyNote(
+      melodyFrequency(rootIndex + step + (layer >= 4 ? 5 : 0)),
+      now + index * 0.052,
+      0.24 + index * 0.035,
+      index % 2 ? 'sine' : 'triangle',
+      baseGain / (1 + index * 0.35)
+    );
+  });
+
+  if (layer >= 3) {
+    playMelodyChord([
+      melodyFrequency(rootIndex),
+      melodyFrequency(rootIndex + 4),
+      melodyFrequency(rootIndex + 7),
+      melodyFrequency(rootIndex + 11),
+    ], now + 0.02, 0.9, 0.055);
+  }
+
+  if (layer >= 5) {
+    [12, 16, 19].forEach((step, index) => {
+      playMelodyNote(melodyFrequency(rootIndex + step), now + 0.18 + index * 0.04, 0.32, 'sine', 0.032);
+    });
+  }
+}
+
+function scheduleMelodyLayers(beatIndex, time, barBeat) {
+  if (!audioCtx || melodyLayer <= 0) return;
+  melodyEnergy = Math.max(0.18, melodyEnergy - 0.006);
+  const progression = [0, 5, 3, 7];
+  const barIndex = Math.floor(beatIndex / 4);
+  const rootIndex = progression[barIndex % progression.length];
+  const gain = (0.018 + melodyLayer * 0.007) * (0.65 + melodyEnergy * 0.35);
+
+  playMelodyNote(melodyFrequency(rootIndex + (barBeat - 1) * 2 + 4), time, 0.15, 'triangle', gain);
+
+  if (melodyLayer >= 2) {
+    playMelodyNote(melodyFrequency(rootIndex + 7 + (barBeat % 2 ? 0 : 2)), time + beatDuration / 2, 0.18, 'sine', gain * 0.82);
+  }
+
+  if (melodyLayer >= 3 && barBeat === 1) {
+    playMelodyChord([
+      melodyFrequency(rootIndex),
+      melodyFrequency(rootIndex + 4),
+      melodyFrequency(rootIndex + 7),
+    ], time + 0.03, beatDuration * 2.7, gain * 0.92);
+  }
+
+  if (melodyLayer >= 4 && (barBeat === 2 || barBeat === 4)) {
+    playMelodyNote(melodyFrequency(rootIndex + 12 - barBeat), time + beatDuration * 0.25, 0.2, 'sine', gain * 0.7);
+  }
+
+  if (melodyLayer >= 5 && barBeat === 4) {
+    [14, 16, 19].forEach((step, index) => {
+      playMelodyNote(melodyFrequency(rootIndex + step), time + beatDuration * (0.15 + index * 0.16), 0.18, 'sine', gain * 0.48);
+    });
   }
 }
 
@@ -696,6 +869,8 @@ async function startGame() {
   particles = [];
   totalPausedDuration = 0;
   pausedTimeStart = 0;
+  melodyLayer = 0;
+  melodyEnergy = 0;
   
   // Reset Level note tracking
   levelTimeline.forEach(n => {
@@ -721,15 +896,11 @@ async function startGame() {
   gameState = 'PLAYING';
   gameTimeStart = audioCtx.currentTime;
   
-  // Start Audio track
+  // Start audio scheduler. With Lyria active, it only adds player-earned melody layers.
+  startSynthScheduler(useExternalAudio && externalAudioUrl ? 'LYRIA + LAYERS' : 'METRONOME CLICK');
   if (useExternalAudio && externalAudioUrl) {
     playExternalAudio();
   } else {
-    // Metronome fallback
-    nextSynthBeatTime = audioCtx.currentTime + 0.05;
-    synthBeatIndex = 0;
-    scheduler();
-    backingTrackPlaying = true;
     els.audioState.textContent = 'METRONOME CLICK';
   }
   
@@ -740,7 +911,7 @@ async function startGame() {
 
 // Decode and play external audio track
 async function playExternalAudio() {
-  els.audioState.textContent = 'STREAMING AUDIO';
+  els.audioState.textContent = 'LYRIA + LAYERS';
   try {
     const res = await fetch(externalAudioUrl);
     const arrayBuf = await res.arrayBuffer();
@@ -759,10 +930,6 @@ async function playExternalAudio() {
   } catch (err) {
     console.warn('[PulseBlade] Server audio decode failed, falling back to WebAudio synth clicks');
     useExternalAudio = false;
-    nextSynthBeatTime = audioCtx.currentTime + 0.05;
-    synthBeatIndex = 0;
-    scheduler();
-    backingTrackPlaying = true;
     els.audioState.textContent = 'METRONOME CLICK';
   }
 }
@@ -819,17 +986,13 @@ async function resumeGame() {
       } else {
         endGame(true);
       }
-      backingTrackPlaying = true;
+      startSynthScheduler('LYRIA + LAYERS');
     } catch (err) {
       useExternalAudio = false;
-      nextSynthBeatTime = audioCtx.currentTime + 0.05;
-      scheduler();
-      backingTrackPlaying = true;
+      startSynthScheduler('METRONOME CLICK');
     }
   } else {
-    nextSynthBeatTime = audioCtx.currentTime + 0.05;
-    scheduler();
-    backingTrackPlaying = true;
+    startSynthScheduler('METRONOME CLICK');
   }
   
   animationFrameId = requestAnimationFrame(gameLoop);
@@ -947,6 +1110,7 @@ function gameLoop() {
         type: note.type,
         worldAngleDeg: normalizeDeg(note.worldAngleDeg),
         approach: note.approach || approachForAngle(note.worldAngleDeg),
+        sourceNote: note,
         hit: false,
         missed: false
       });
@@ -959,9 +1123,10 @@ function gameLoop() {
       const timeDiff = elapsedGameTime - note.time;
       if (timeDiff > goodRange || (timeDiff > 0.15 && !noteIsFacing(note, viewConeDeg))) {
         // Miss! Note flew past targets
-        note.missed = true;
+        markNoteResolved(note, 'missed');
         notesMissed++;
         combo = 0;
+        softenMelodyStack();
         els.comboDisplay.classList.add('hidden');
         
         if (note.type === 'hazard' || note.type === 'shield') {
@@ -986,8 +1151,9 @@ function gameLoop() {
   
   // Filter out expired notes (e.g. hit or missed for a while)
   activeNotes = activeNotes.filter(note => {
-    const elapsedSinceTarget = elapsedGameTime - note.time;
-    return !((note.hit || note.missed) && elapsedSinceTarget > 0.4);
+    const resolvedAt = Number.isFinite(note.resolvedAt) ? note.resolvedAt : note.time;
+    const elapsedSinceResolved = elapsedGameTime - resolvedAt;
+    return !((note.hit || note.missed) && elapsedSinceResolved > 0.35);
   });
   
   // Update Next Cue on HUD
@@ -1020,15 +1186,18 @@ function updateHealthBar() {
 function handleHitAttempt(lane) {
   if (gameState !== 'PLAYING') return;
   
-  // Find nearest note in this lane in the hit zone
+  // Find the closest same-lane note anywhere in the final third of its path.
   let targetNote = null;
-  let minDiff = Infinity;
+  let targetProgress = 0;
+  let minTargetDistance = Infinity;
   
   activeNotes.forEach(note => {
-    if (note.lane === lane && !note.hit && !note.missed && noteIsFacing(note, hitConeDeg)) {
-      const diff = Math.abs(elapsedGameTime - note.time);
-      if (diff < goodRange && diff < minDiff) {
-        minDiff = diff;
+    if (note.lane === lane && !note.hit && !note.missed && noteIsInSwipeZone(note)) {
+      const progress = noteHitProgress(note);
+      const targetDistance = Math.abs(1 - progress);
+      if (targetDistance < minTargetDistance) {
+        minTargetDistance = targetDistance;
+        targetProgress = progress;
         targetNote = note;
       }
     }
@@ -1037,9 +1206,10 @@ function handleHitAttempt(lane) {
   if (targetNote) {
     if (targetNote.type === 'hazard' || targetNote.type === 'shield') {
       // Slicing a hazard note deals massive damage!
-      targetNote.missed = true;
+      markNoteResolved(targetNote, 'missed');
       notesMissed++;
       combo = 0;
+      softenMelodyStack();
       els.comboDisplay.classList.add('hidden');
       health = Math.max(0, health - 30);
       updateHealthBar();
@@ -1054,24 +1224,14 @@ function handleHitAttempt(lane) {
       }
     } else {
       // Successfully hit normal note!
-      targetNote.hit = true;
+      markNoteResolved(targetNote, 'hit');
       notesHit++;
       combo++;
       if (combo > maxCombo) maxCombo = combo;
       
-      // Calculate score based on timing
-      let pointAward = 50;
-      let rating = 'GOOD';
-      let ratingClass = 'good';
-      
-      if (minDiff <= perfectRange) {
-        pointAward = 100;
-        rating = 'PERFECT';
-        ratingClass = 'perfect';
-        health = Math.min(100, health + 5);
-      } else {
-        health = Math.min(100, health + 2);
-      }
+      // Calculate score from coordinate progress: final third is valid, target center is perfect.
+      const { rating, ratingClass, pointAward, healthBonus } = ratingForHitProgress(targetProgress);
+      health = Math.min(100, health + healthBonus);
       
       score += pointAward * (1 + Math.floor(combo / 10)); // Combo score multiplier
       updateHealthBar();
@@ -1087,6 +1247,7 @@ function handleHitAttempt(lane) {
       
       showFeedback(rating, ratingClass);
       playLaneAccent(lane, ratingClass); // Play rich, lane-aligned synth chord stabs in key
+      boostMelodyStack(lane, ratingClass);
       targetFlashes[lane] = 1.0; // Trigger visual target pulse animation
       updateCueHud();
       
@@ -1113,10 +1274,9 @@ function handleParry() {
   
   activeNotes.forEach(note => {
     if (!note.hit && !note.missed) {
-      const diff = Math.abs(elapsedGameTime - note.time);
-      if (diff < goodRange) {
+      if (noteIsInSwipeZone(note)) {
         // Can parry any note, but especially useful on hazards!
-        note.hit = true; // mark as processed
+        markNoteResolved(note, 'hit');
         parriedAny = true;
         
         let bonus = 150;
@@ -1132,6 +1292,7 @@ function handleParry() {
         health = Math.min(100, health + 10);
         updateHealthBar();
         els.score.textContent = String(score).padStart(6, '0');
+        boostMelodyStack(note.lane, 'good');
         
         // Spawn shield green particles
         const targetPos = getTargetPos(note.lane);
@@ -1297,6 +1458,21 @@ function drawTargets() {
   lanes.forEach(lane => {
     const pos = getTargetPos(lane);
     const color = laneColors[lane];
+    const catchStartRadius = radius * hitZoneStartProgress;
+    let start = { x: center, y: center };
+    if (lane === 'up') start = { x: center, y: center - catchStartRadius };
+    else if (lane === 'down') start = { x: center, y: center + catchStartRadius };
+    else if (lane === 'left') start = { x: center - catchStartRadius, y: center };
+    else if (lane === 'right') start = { x: center + catchStartRadius, y: center };
+    
+    ctx.strokeStyle = `hsla(${color.H}, ${color.S}%, ${color.L}%, 0.18)`;
+    ctx.lineWidth = 12;
+    ctx.shadowColor = color.hex;
+    ctx.shadowBlur = 5;
+    ctx.beginPath();
+    ctx.moveTo(start.x, start.y);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
     
     // Draw target marker circle
     ctx.fillStyle = `rgba(${color.H === 45 ? '255,170,0' : (color.H === 280 ? '157,0,255' : (color.H === 340 ? '255,0,127' : '0,240,255'))}, 0.15)`;
@@ -1365,8 +1541,7 @@ function drawNotes() {
   activeNotes.forEach(note => {
     if (note.hit) return; // don't draw hit notes
     
-    // Calculate current note depth (0 = center, 1 = maximum outer)
-    const timeToTarget = note.time - elapsedGameTime; // seconds
+    // Calculate current note depth (0 = center, targetDepth = lane target).
     const facingDelta = angleDeltaDeg(note.worldAngleDeg || 0, headYawDeg);
     const absDelta = Math.abs(facingDelta);
     if (absDelta > viewConeDeg) {
@@ -1374,10 +1549,7 @@ function drawNotes() {
       return;
     }
 
-    const travelWindow = timeToTarget > noteTravelTime ? previewTravelTime : noteTravelTime;
-    const depth = clamp(1.0 - (timeToTarget / travelWindow) + depthNudge, 0.05, 1.16);
-    
-    if (depth < 0) return; // not spawned yet
+    const depth = noteScreenDepth(note);
     
     const radius = depth * maxRadius;
     const color = laneColors[note.lane] || laneColors.up;
@@ -1420,7 +1592,7 @@ function drawNotes() {
       ctx.fill();
       ctx.stroke();
     } else {
-      const inZone = noteIsFacing(note, hitConeDeg) && Math.abs(timeToTarget) <= goodRange;
+      const inZone = noteIsInSwipeZone(note);
       // Draw normal capsule note (slightly larger for better readability)
       ctx.strokeStyle = color.hex;
       ctx.fillStyle = note.missed ? 'rgba(100, 100, 100, 0.15)' : `hsla(${color.H}, ${color.S}%, ${color.L}%, ${inZone ? 0.68 : 0.38})`;
@@ -1523,20 +1695,20 @@ function drawParticles() {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowUp') {
       e.preventDefault();
-      depthNudge = clamp(depthNudge + 0.05, -0.14, 0.14);
       handleHitAttempt('up');
+      depthNudge = clamp(depthNudge + 0.05, -0.14, 0.14);
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      depthNudge = clamp(depthNudge - 0.05, -0.14, 0.14);
       handleHitAttempt('down');
+      depthNudge = clamp(depthNudge - 0.05, -0.14, 0.14);
     } else if (e.key === 'ArrowLeft') {
       e.preventDefault();
-      rotateSimHeading(-35);
       handleHitAttempt('left');
+      rotateSimHeading(-24);
     } else if (e.key === 'ArrowRight') {
       e.preventDefault();
-      rotateSimHeading(35);
       handleHitAttempt('right');
+      rotateSimHeading(24);
   } else if (e.key === 'Enter') {
     e.preventDefault();
     if (gameState === 'START' || gameState === 'RESULTS') {

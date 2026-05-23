@@ -15,9 +15,9 @@
  *   }
  */
 export { runManagedAgent } from "./managed-agent.mjs";
-export { generateScene, scenePrompt } from "./scene-gen.mjs";
+export { generateScene, scenePrompt, generateText } from "./scene-gen.mjs";
 export { runLyriaClip } from "./lyria.mjs";
 export { generateTTS } from "./tts.mjs";
 export { generateCinematic } from "./veo.mjs";
-export { requestStructured } from "./structured.mjs";
+export { requestStructured, firstJsonObject } from "./structured.mjs";
 export { getClient } from "./client.mjs";

@@ -1,64 +1,79 @@
 # OMNI-ODYSSEY
 
-> The lead demo. Pick a door → Nano Banana paints the next world. With a pre-generated Veo cinematic intro.
+> **The lead demo.** A coherent, consequential illustrated adventure — narrated live by Gemini Flash, painted live by Nano Banana, with audience-conjured monsters woven in as encounters.
 
 A self-contained game built with [Gemini Flash Meta Displays](../../README.md).
-This is the **lead example** spotlighted in the hackathon demo.
 
-## What's here
+See [`TOOLS_USED.md`](TOOLS_USED.md) for the full Gemini-tools map.
 
-| File | Purpose |
+## What players see
+
+1. **Cinematic intro** (pre-generated Veo clip, 8s, muted-autoplay) opens the adventure
+2. **Painted scene** + 3 glowing choice doors
+3. **Pinch a door** → Flash narrates the consequence (~3s) + Nano Banana paints the new world (~16s)
+4. **Audience monsters appear** as encounters every other beat (befriend / fight / flee, with real story consequences)
+
+## Architecture
+
+- **Flash narrates** each beat → returns JSON `{narration, choices[3], image_prompt, tag}`
+- **Nano Banana paints** the new scene from the `image_prompt`
+- A **worker queue** sequentially paints audience-submitted monsters (rate-limit-safe)
+- A **bestiary** at `/conjure` shows everyone's submissions
+
+## Routes
+
+| Route | What it does |
 |---|---|
-| `omni.config.mjs` | Game definition: state, routes, lifecycle. ~110 lines total. |
-| `display/index.html` | 600×600 HUD with gesture-gated cinematic intro |
-| `display/director.html` | Optional judge-facing "Director's-View" console (live agent trace) |
-| `assets/intro.mp4` | Pre-generated 8s Veo cinematic with native audio *(generate per Phase 2 plan)* |
-| `assets/opening-scene.jpg` | Pre-generated opening scene *(generate per Phase 2 plan)* |
-
-## What the framework provides
-
-- HTTP + SSE + static serving (`gfmd dev`)
-- `generateScene` (Nano Banana) — text → painted scene
-- `runManagedAgent` (with `threadKey` for the Director thread)
-- Cloudflare tunnel + install QR
+| `GET /` | Glasses HUD (`display/index.html`) |
+| `GET /conjure` | **Audience monster submission page** (mobile-friendly) |
+| `GET /scene-data` | Light poll — current chapter, caption, choices |
+| `GET /scene-image` | Current painted scene (raw JPEG bytes) |
+| `GET /scene-video` | Veo opening cinematic (if pre-generated) |
+| `POST /choose` | Player commits a choice — narrates + paints next beat |
+| `POST /reset` | Restart the story (replays between demo runs) |
+| `POST /director` | Optional: managed-agent re-imagines the choice set |
+| `GET /monsters` | List all submitted monsters (for the bestiary UI) |
+| `GET /monster-image?id=...` | A specific monster's portrait |
 
 ## Run
 
 ```bash
 cd examples/omni-odyssey
-cp ../../.env.example .env       # then set GEMINI_API_KEY
+cp .env.example .env       # set GEMINI_API_KEY
 npm install
 gfmd dev
 ```
 
-The first time the HUD loads, you'll see the opening scene immediately (loaded from `assets/opening-scene.jpg`). When the player commits a choice, Nano Banana paints the next world (~16s).
+Then either:
+- Open the bridge URL in a browser to see the HUD locally
+- Scan the QR with a Pixel, install via Meta AI app, view on the glasses
 
-## How the live demo runs
-
-1. Boot `gfmd dev` (terminal shows: bridge URL, tunnel URL, install QR)
-2. Scan QR on Pixel → Meta AI → Add Web App → Add
-3. Open OmniOdyssey on the glasses
-4. **Pinch / Enter** to play the cinematic intro (Veo, 8s, with audio)
-5. Cinematic ends → first painted scene + 3 doors
-6. **Pinch a door** → "the agents are painting your world…" → new scene + new choices
-7. Repeat until you cut
-
-## Pre-generating assets
-
-The Veo cinematic and opening scene should be generated once before stage time
-so the demo is cold-start safe. From the framework root:
+To pre-warm the Veo cinematic + opening scene (so first paint is instant):
 
 ```bash
-gfmd agent run --prompt "..."          # warm-up; tests the API key
-node scripts/prewarm-odyssey.mjs        # generates assets/opening-scene.jpg + assets/intro.mp4
+node ../../scripts/prewarm-odyssey.mjs
 ```
 
-*(prewarm script lives in scripts/ in the framework root; covered by Phase 2 polish.)*
+To seed the bestiary with PROMPT ARENA's 8 trained monsters (repainted in the storybook style):
 
-## Built today (provenance)
+```bash
+SEED_TRAINED=1 gfmd dev
+```
 
-Original orchestrator (~340 lines, prototyped earlier today) lived at
-`GoogleIO/apps/omni-quest/orchestrator.mjs`. This version is ~110 lines
-because the framework now owns everything else. The display HTML
-(`display/index.html`) is the same `scene.html` from the prototype —
-all 145 lines authored today.
+That fires 8 Nano Banana calls in the background (~2 min total) as soon as the server boots.
+
+## What's here
+
+| File | Purpose |
+|---|---|
+| `omni.config.mjs` | Game definition — state, narrator, monster worker, all routes (~250 lines) |
+| `display/index.html` | 600×600 HUD with gesture-free muted-autoplay cinematic intro |
+| `display/conjure.html` | Audience monster submission page (mobile-friendly) |
+| `display/director.html` | Optional judge-facing "Director's-View" trace console |
+| `assets/intro.mp4` | Pre-generated 8s Veo cinematic *(generate via `../../scripts/prewarm-odyssey.mjs`)* |
+| `assets/opening-scene.jpg` | Pre-generated opening scene *(same script)* |
+| `TOOLS_USED.md` | Judge-facing Gemini-tools map |
+
+## Provenance
+
+Original orchestrator (~490 lines) lived at `GoogleIO/apps/omni-quest/orchestrator.mjs`. This version is ~250 lines — same gameplay, but the framework now owns the bridge / SSE / static / tunnel / QR / Buffer-aware response writer. Display HTML files (`index.html`, `conjure.html`, `director.html`) ported as-is. All authored on 2026-05-23 during the hackathon.

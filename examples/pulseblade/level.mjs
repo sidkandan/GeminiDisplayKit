@@ -272,7 +272,8 @@ export function makeLyriaPrompt(options = {}) {
     `Create a 30-second original instrumental ${intensity} smart-glasses rhythm-game loop at exactly ${bpm} BPM.`,
     `Theme: ${theme}.`,
     "Use strict 4/4 timing, clear bar downbeats, crisp percussion transients, short synth stabs, and no tempo drift.",
-    "Leave space for player-triggered chord stabs on directional swipes; do not fill every beat.",
+    "Arrange it like a sparse foundation bed: leave clear space for player-triggered chord stabs, arpeggios, pads, and shimmer layers that stack when directional swipes land.",
+    "Use strong downbeats but avoid dense lead melodies, so the browser can add new instruments as the player's combo grows.",
     "The chart will rotate around front, right, behind, and left; keep the music spacious enough for head-turn moments.",
     "No vocals, copyrighted references, artist names, or recognizable melodies.",
   ].join(" ");

@@ -33,10 +33,10 @@ during the hackathon. None of these files existed before the event started.
 | `bin/gfmd.mjs` | 22 | CLI entry point |
 | `src/cli.mjs` | 105 | Command dispatch + flag parser |
 | `src/index.mjs` | 41 | Public SDK surface (`defineGame`, tools re-exports) |
-| `src/bridge/server.mjs` | 240 | HTTP + SSE + static + per-game route mounting |
+| `src/bridge/server.mjs` | 280 | HTTP + SSE + static + per-game route mounting + Buffer-aware response writer |
 | `src/tools/client.mjs` | 23 | Cached lazy Gemini client |
 | `src/tools/managed-agent.mjs` | 135 | `runManagedAgent` with per-surface `threadKey` |
-| `src/tools/scene-gen.mjs` | 60 | Nano Banana wrapper |
+| `src/tools/scene-gen.mjs` | 90 | Nano Banana `generateScene` + Flash `generateText` (for narration) |
 | `src/tools/lyria.mjs` | 50 | Lyria 3 wrapper + prompt builder |
 | `src/tools/tts.mjs` | 70 | Gemini TTS wrapper with PCM→WAV wrapping |
 | `src/tools/veo.mjs` | 50 | Veo image-to-video wrapper with operation polling |
@@ -73,6 +73,7 @@ during the hackathon. None of these files existed before the event started.
 | `docs/getting-started.md` | First-game-in-5-minutes |
 | `docs/architecture.md` | Bridge ↔ display ↔ Gemini design rationale |
 | `docs/managed-agents.md` | The four agent patterns with code samples |
+| `docs/runbook-mbp.md` | Operational runbook for hosting any gfmd game from a MacBook Pro |
 | `docs/built-during-hackathon.md` | Provenance ledger (this file's companion) |
 | `docs/anti-pattern-defense.md` | Why we are NOT a banned project |
 | `docs/judges-guide.md` | Recommended file-viewing order |
@@ -92,7 +93,7 @@ during the hackathon. None of these files existed before the event started.
 
 | Path | Origin | Authored | Framework dependency |
 |---|---|---|---|
-| `examples/omni-odyssey/` | Refactored from a 340-line standalone `orchestrator.mjs` prototyped earlier today in a separate workspace. The new version is ~110 lines because the framework now owns the bridge/SSE/tunnel/QR. | Today (2026-05-23) | Depends on `gfmd` via local `file:../..` |
+| `examples/omni-odyssey/` | A coherent illustrated adventure narrated by **Gemini Flash** (`generateText`), painted live by **Nano Banana** (`generateScene`), with **audience-conjured monsters** woven in as encounters via `GET/POST /conjure` + a worker queue. Refactored from a 490-line standalone `orchestrator.mjs` prototyped earlier today; the new version is ~250 lines because the framework now owns the bridge/SSE/tunnel/QR. Includes `display/index.html`, `display/conjure.html`, `display/director.html`, and a judge-facing `TOOLS_USED.md`. | Today (2026-05-23) | Depends on `gfmd` via local `file:../..` |
 | `examples/pulseblade/` | Refactored from a 500-line standalone `pulseblade-server.mjs` prototyped earlier today. The level designer library (`level.mjs`) and display files ported as-is; the bridge wrapper shrinks to ~100 lines because the framework owns the duplicated bits. | Today (2026-05-23) | Depends on `gfmd` via local `file:../..` |
 | `examples/prompt-arena/` | Standalone Python project prototyped earlier today as a parallel hackathon attempt. Dropped in verbatim as a **bonus example** for the captured `code_execution_call` traces. **Does not currently depend on the framework** — runs on its own Flask server. See [`examples/prompt-arena/BONUS-NOT-DEMOED.md`](examples/prompt-arena/BONUS-NOT-DEMOED.md). | Today (2026-05-23) | Standalone (Python; Phase 3 will wrap it) |
 
