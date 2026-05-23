@@ -4,10 +4,14 @@
 > and ready to be pushed to GitHub as a **public** repo for the hackathon
 > submission. Sid will dispatch this to AGY (Gemini Antigravity CLI) in
 > pane `%1` to perform the final push.
+>
+> **Setup:** Sid will give AGY the absolute path to the prepared repo via
+> chat. Set `REPO_DIR=<that path>` before running the commands below,
+> or `cd` there first and use `.` for any path reference.
 
 ## Pre-push state (as of last local commit)
 
-- Local repo at `/Users/sid/AICLI/Projects/Hackathon/GoogleIO/Gemini3.5FlashDisplays`
+- Local repo at `$REPO_DIR`
 - Two commits on `main`:
   - `e7109b1` — Initial commit — Gemini Flash Meta Displays
   - `488a46a` — docs: add 1-minute YouTube demo video link to README + SUBMISSION
@@ -19,7 +23,7 @@
 ## Step 1 — Verify locally (AGY: please run all of these and confirm clean)
 
 ```bash
-cd /Users/sid/AICLI/Projects/Hackathon/GoogleIO/Gemini3.5FlashDisplays
+cd $REPO_DIR
 
 # 1a — Confirm git state
 git log --oneline
@@ -130,7 +134,7 @@ including:
 - ❌ Do not change the repo name from `GeminiFlashMetaDisplays` — docs link to it
 - ❌ Do not set the repo to private — hackathon rules require public
 - ❌ Do not push from a clean clone — push from the **prepared local repo**
-  at `/Users/sid/AICLI/Projects/Hackathon/GoogleIO/Gemini3.5FlashDisplays`
+  at `$REPO_DIR`
   (it already has the curated commits)
 
 ## If something goes wrong
