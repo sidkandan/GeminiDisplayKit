@@ -70,6 +70,15 @@ In order of weight:
 2. **Creativity (35%):** No equivalent framework exists for this platform. The framework primitive + the four managed-agent patterns + the QR install flow is novel.
 3. **Impact (20%):** Developer-tools have multiplier impact. Meta Display is a brand-new platform; first-mover frameworks tend to define how the platform is built on.
 
+## Rubric mapping
+
+| Criterion | Weight | What you need to see | Our strongest evidence |
+|---|---|---|---|
+| **Live Demo** | 45% | It runs live and is more than a mockup | `gfmd dev` boots bridge + tunnel + QR in <10s in front of you; OMNI-ODYSSEY narrates + paints with audience-conjured monsters; PulseBlade plays on real Meta Display hardware |
+| **Creativity** | 35% | Not another chatbot/RAG/image-analyzer | First-of-its-kind framework for Meta Display Web Apps; four distinct managed-agent use patterns (Director, Hatchery with code execution, World-balancer, Hint-giver); audience-conjure mechanic; cross-example monster wire-up (PROMPT ARENA → OMNI-ODYSSEY bestiary) |
+| **Impact Potential** | 20% | It can matter after the hackathon | Reusable public Gemini SDK path for Meta Display Web Apps; documented MacBook Pro runbook; templates make next developer's first game a 5-minute task |
+| **Best Use of Managed Agents** | $5k bonus | Managed Agents are central and visible | `runManagedAgent` with `threadKey` (fixes cross-surface contamination); captured `code_execution_call` traces at `examples/prompt-arena/data/traces/m_emberton.json`; four patterns documented in `docs/managed-agents.md`; `interactionId` + `environmentId` surfaced as proof |
+
 ## What we do NOT want to be judged on
 
 - The PaletteQuest prototype (deliberately not imported — see anti-pattern defense for why)

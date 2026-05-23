@@ -117,6 +117,19 @@ First commit timestamped at event start; commit log is the receipts. See [`docs/
 
 Sid Kandan (solo). Built with a heterogeneous AI build-swarm (Codex + Gemini Antigravity CLI + Claude) orchestrated live.
 
+## References
+
+When judges (or you) want to verify a model is real and available:
+
+- [Gemini Managed Agents overview](https://ai.google.dev/gemini-api/docs/agents) — the headline new capability we lean on
+- [Managed Agents quickstart](https://ai.google.dev/gemini-api/docs/managed-agents-quickstart)
+- [Gemini 3.5 / Interactions API — what's new](https://ai.google.dev/gemini-api/docs/interactions/whats-new-gemini-3.5)
+- [Gemini API quickstart](https://ai.google.dev/gemini-api/docs/quickstart) · [Gemini API cookbook](https://github.com/google-gemini/cookbook)
+- [Nano Banana — image generation](https://ai.google.dev/gemini-api/docs/image-generation) — used in OMNI-ODYSSEY scene painting
+- [Lyria — music generation](https://ai.google.dev/gemini-api/docs/music-generation) — used in PulseBlade backing tracks
+- [Veo — video generation](https://ai.google.dev/gemini-api/docs/video) — used in OMNI-ODYSSEY cinematic intro
+- [Managed Agents announcement blog](https://blog.google/innovation-and-ai/technology/developers-tools/managed-agents-gemini-api/)
+
 ## License
 
 MIT. See [LICENSE](LICENSE) and [NOTICE](NOTICE).

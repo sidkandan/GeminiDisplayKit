@@ -42,14 +42,20 @@ templates).
 The games built with the framework are *creative* — they generate
 imagery, music, agent-directed narrative:
 
-- **OMNI-ODYSSEY** is a creative loop. Player picks a door → **Nano Banana
-  paints a new world**. The model's output is the artifact. No images go
-  into the model from the user side at all.
-- **PulseBlade** is a rhythm game. **Lyria 3 generates a backing track,
-  Flash generates a level structure as JSON.** No image input.
-- **PROMPT ARENA** is a strategy simulation. **Managed agents write
-  Python and run it in a sandbox** to tune strategies. **Imagen 4
-  generates monster sprites.** No user-supplied images.
+- **OMNI-ODYSSEY** is a generated world engine. Gemini Flash **narrates**
+  each beat (text → text); Nano Banana **paints** each scene (text →
+  image); audience-conjured monsters are **painted from a text
+  description**, not from a photo. **Vision input is never used.** The
+  product is a story unfolding on the lenses.
+- **PulseBlade** is a generated 360° wearable rhythm game. Flash designs
+  the level structure as JSON (text → JSON), Lyria generates the
+  backing track (text → audio), a managed agent reviews the level for
+  balance (text → notes). **There is no camera input. PulseBlade is
+  NOT Beat Saber, and it is NOT an image analyzer.**
+- **PROMPT ARENA** is a strategy simulation. Managed agents **write
+  Python and run it in a remote sandbox** to tune monster battle
+  strategies. Imagen 4 generates monster sprites from text. **No
+  user-supplied images. No vision input anywhere in the loop.**
 
 None of the live-demo flows accept an arbitrary user image and respond
 with a description of it. That's the test for "image analyzer." We

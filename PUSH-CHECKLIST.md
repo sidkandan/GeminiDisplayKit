@@ -9,13 +9,61 @@
 > chat. Set `REPO_DIR=<that path>` before running the commands below,
 > or `cd` there first and use `.` for any path reference.
 
+---
+
+## ⭐ Step 0 — PICK A CREATIVE REPO NAME
+
+**Sid's directive:** The GitHub repo name should be **creative and involve all three concepts**:
+
+1. **Gemini Flash** (the model family that powers fast generation)
+2. **Managed Agents** (the headline new Gemini capability)
+3. **Heads-Up Display (HUD)** (the Meta Ray-Ban Display surface we target)
+
+Internal placeholder is `GeminiFlashMetaDisplays`. **You decide the final name.** Pick something memorable, short, pronounceable. The repo URL will be `https://github.com/sidkandan/<YOUR-NAME>`.
+
+Brainstorming seeds (you can riff on these or invent fresh):
+
+- `AgentLens` · `AgentHUD` · `AgentFlash`
+- `FlashHUD` · `FlashLens` · `FlashGlass`
+- `HUDFleet` · `HUDForge` · `HUDCanvas`
+- `OmniLens` · `OmniHUD` · `OmniAgent`
+- `BlinkAgent` · `Flicker` · `Glimpse`
+- something using "Specs," "Frame," "Lens," "Eyeline," "Glint," "Aurora"
+
+After choosing:
+
+```bash
+# Replace the URL in docs that reference the GitHub repo
+NAME="<your-chosen-name>"   # e.g., NAME="AgentLens"
+cd $REPO_DIR
+
+# Update README.md, SUBMISSION.md, SUBMISSION-FORM.md, package.json, PUSH-CHECKLIST.md
+sed -i '' "s|sidkandan/GeminiFlashMetaDisplays|sidkandan/$NAME|g" \
+  README.md SUBMISSION.md SUBMISSION-FORM.md package.json PUSH-CHECKLIST.md \
+  examples/omni-odyssey/README.md examples/pulseblade/README.md \
+  templates/adventure/README.md examples/prompt-arena/README.md \
+  docs/*.md CONTRIBUTORS.md CONTRIBUTING.md
+
+# Verify nothing missed
+grep -rE 'GeminiFlashMetaDisplays' --exclude-dir=node_modules --exclude-dir=.git . | head
+
+# Optional: also rename the npm package name (low-impact since we use it via file:// locally)
+# Leave `gfmd` as the CLI binary name regardless.
+
+# Commit the rename
+git add -A
+git commit -m "chore: pick public repo name — $NAME"
+```
+
+If you want to keep `gemini-flash-meta-displays` as the npm package name and just use the new name as the GitHub repo URL, that's also fine — the npm name doesn't have to match the GitHub repo.
+
+---
+
 ## Pre-push state (as of last local commit)
 
 - Local repo at `$REPO_DIR`
-- Two commits on `main`:
-  - `e7109b1` — Initial commit — Gemini Flash Meta Displays
-  - `488a46a` — docs: add 1-minute YouTube demo video link to README + SUBMISSION
-- 151 files staged → committed (every text file in the repo)
+- 6+ commits on `main` (check with `git log --oneline`)
+- First commit `e7109b1` is the bootstrap with everything; subsequent commits are doc updates + mini-sync + this rename
 - `BeatSaberDisplay.mp4` (68 MB) is **gitignored** (`*.mp4` rule); stays on disk locally, not in the repo
 - `npm test` passes (10/10) — `node scripts/smoke.mjs`
 - `bash scripts/scrub-for-publish.sh` clean — no API keys, no `/Users/*` paths, no tracked `.env`
@@ -28,7 +76,6 @@ cd $REPO_DIR
 # 1a — Confirm git state
 git log --oneline
 git status                    # MUST report "nothing to commit, working tree clean"
-                              # (BeatSaberDisplay.mp4 should be invisible — gitignored)
 
 # 1b — Confirm scrub
 bash scripts/scrub-for-publish.sh
@@ -46,14 +93,12 @@ If any of those fail, **STOP and report** to Sid before proceeding.
 
 ## Step 2 — Create the public GitHub repo
 
-The repo URL in `package.json` and `README.md` is already set to
-`https://github.com/sidkandan/GeminiFlashMetaDisplays` — match that name
-exactly so links don't break.
-
 ```bash
-gh repo create sidkandan/GeminiFlashMetaDisplays \
+NAME="<your-chosen-name>"   # the one from Step 0
+
+gh repo create sidkandan/$NAME \
   --public \
-  --description "Gemini-powered SDK + CLI for building games on Meta Ray-Ban Display. Built at the Google I/O Hackathon 2026-05-23." \
+  --description "A Gemini-powered SDK + CLI for building managed-agent games on Meta Ray-Ban Display HUDs. Built at the Google I/O Hackathon 2026-05-23." \
   --homepage "https://youtube.com/shorts/6Gl1k9jtep4" \
   --source . \
   --remote origin \
@@ -62,39 +107,36 @@ gh repo create sidkandan/GeminiFlashMetaDisplays \
 
 If `gh` isn't authenticated, `gh auth login` first.
 
-If the name is taken (the user previously had a repo named `prompt-arena`
-under the same account; this name should be free), pick `GeminiFlashMetaDisplays`
-exactly — don't shorten — so the docs links resolve.
+If the name is taken, pick the next-best one and update the docs sed pass.
 
 ## Step 3 — Verify the public repo
 
 ```bash
 # Should report "PUBLIC"
-gh repo view sidkandan/GeminiFlashMetaDisplays --json visibility,url
+gh repo view sidkandan/$NAME --json visibility,url
 
 # Open in browser and visually confirm:
 #  - README renders properly
 #  - YouTube link at the top works
 #  - PROVENANCE.md is at the root
+#  - SUBMISSION-FORM.md has the form-ready text
 #  - examples/ tree is visible
-gh repo view sidkandan/GeminiFlashMetaDisplays --web
+gh repo view sidkandan/$NAME --web
 ```
 
 ## Step 4 — Sanity check from a clean clone (recommended)
 
-Confirm a fresh judge clone will work:
-
 ```bash
 TMPDIR=$(mktemp -d) && cd "$TMPDIR" && \
-git clone https://github.com/sidkandan/GeminiFlashMetaDisplays.git && \
-cd GeminiFlashMetaDisplays && \
+git clone https://github.com/sidkandan/$NAME.git && \
+cd $NAME && \
 ls -la && \
 node bin/gfmd.mjs --version
 ```
 
 Expected:
 - Clone succeeds
-- All top-level docs visible (`README.md`, `PROVENANCE.md`, `SUBMISSION.md`, `DEMO-RUNBOOK.md`, `LICENSE`, `NOTICE`, `CONTRIBUTORS.md`, `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`)
+- All top-level docs visible
 - `examples/` contains `omni-odyssey/`, `pulseblade/`, `prompt-arena/`
 - `examples/prompt-arena/data/traces/` contains the 3 captured trace JSON files (the managed-agents prize evidence)
 - `node bin/gfmd.mjs --version` prints `0.1.0`
@@ -104,60 +146,58 @@ Expected:
 After the public repo is live and verified:
 
 1. Go to https://cerebralvalley.ai/e/google-io-hackathon/hackathon/submit
-2. Project name: `Gemini Flash Meta Displays`
-3. Repository URL: `https://github.com/sidkandan/GeminiFlashMetaDisplays`
-4. Demo video URL: `https://youtube.com/shorts/6Gl1k9jtep4`
-5. Team: Sid Kandan (solo)
-6. Categories: Best Use of Managed Agents (primary), Overall (secondary)
+2. **Use the field-ready text in [`SUBMISSION-FORM.md`](SUBMISSION-FORM.md) — copy-paste each section verbatim.**
+3. Project name: from your Step 0 choice
+4. Repository URL: `https://github.com/sidkandan/$NAME`
+5. Demo video URL: `https://youtube.com/shorts/6Gl1k9jtep4`
+6. Team: Sid Kandan (solo)
+7. Categories: Best Use of Managed Agents (primary), Overall (secondary)
 
-Refer to [`SUBMISSION.md`](SUBMISSION.md) for the full form contents.
+The submission form likely has fields for:
+- Project name ← from your Step 0
+- One-sentence pitch ← `SUBMISSION-FORM.md` "One-sentence pitch"
+- Project description (short/long) ← `SUBMISSION-FORM.md` short/long versions
+- "Does your project use managed agents?" ← `SUBMISSION-FORM.md` has the full answer
+- "What did you build during the hackathon?" ← `SUBMISSION-FORM.md` has it
+- Repo URL + demo video URL
 
 ## Step 6 — Report back
 
-Once pushed and submitted, **dispatch confirmation back to Sid** via:
+Once pushed and submitted, **send a reply via tmux-comm** to whichever pane Sid is in, including:
 
 ```
-tmux-comm send_message → target pane Sid is in,
-including:
-  - Public GitHub URL: https://github.com/sidkandan/GeminiFlashMetaDisplays
-  - First commit SHA: e7109b1 (timestamp 2026-05-23, evening)
-  - Submission confirmation #: (whatever Cerebral Valley returns)
+- ✅ Repo created: https://github.com/sidkandan/<name>
+- ✅ Public: confirmed via `gh repo view --json visibility`
+- ✅ Clean clone test: passed
+- ✅ Submitted at: <Cerebral Valley confirmation timestamp>
+- 📺 Demo video link: https://youtube.com/shorts/6Gl1k9jtep4
+- 🪪 First commit SHA: e7109b1 (timestamp 2026-05-23)
+- 🎯 Chosen creative name: <NAME> — short rationale
 ```
 
 ## Things NOT to do
 
-- ❌ Do not amend or rewrite history before pushing — the commit
-  timestamps are the hackathon-rules provenance evidence
+- ❌ Do not amend or rewrite history before pushing — commit timestamps are the hackathon-rules provenance evidence
 - ❌ Do not push `BeatSaberDisplay.mp4` (it's gitignored — keep it that way)
-- ❌ Do not add anything from `examples/prompt-arena/.env` (the file doesn't
-  exist in the repo; only `.env.example` does)
-- ❌ Do not change the repo name from `GeminiFlashMetaDisplays` — docs link to it
+- ❌ Do not add anything from any `.env` (no `.env` files should exist in the repo; only `.env.example`)
 - ❌ Do not set the repo to private — hackathon rules require public
-- ❌ Do not push from a clean clone — push from the **prepared local repo**
-  at `$REPO_DIR`
-  (it already has the curated commits)
+- ❌ Do not push from a clean clone — push from the **prepared local repo** at `$REPO_DIR` (it has the curated commits)
+- ❌ Do not skip the Step 0 rename — the URLs in the docs need to match the actual GitHub URL
 
 ## If something goes wrong
 
-Stop and report to Sid in pane the user is working in. Don't try to
-"fix it forward" — the submission is high-stakes and a clean push from
-this prepared state is more important than speed.
+Stop and report to Sid via tmux-comm. Don't try to "fix it forward" — the submission is high-stakes and a clean push from this prepared state is more important than speed.
 
 Common failure modes:
-- `gh repo create` says the name is taken → ask Sid for the correct name
+- `gh repo create` says the name is taken → pick another, redo the sed rename
 - `git push` is rejected because the remote already has commits → STOP, do not force-push
 - Smoke or scrub reports issues → STOP, surface to Sid
 
-## After successful push
+## After successful push (optional polish)
 
-Add this entry to a new commit (so the public repo records the push event):
+If you've time, one final commit with the canonical repo URL fully baked in:
 
 ```bash
-# Add a tiny update: in SUBMISSION.md the repo URL line becomes a live link
-# (it already says https://github.com/sidkandan/GeminiFlashMetaDisplays — should already be correct)
-
-# Then push the new commit (no-op if no changes)
+git add -A && git commit -m "docs: lock in canonical repo URL post-push" --allow-empty
 git push
 ```
-
-That's it. The repo is then live and submission-ready.
