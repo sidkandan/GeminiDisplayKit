@@ -1,5 +1,5 @@
 /**
- * OMNI-ODYSSEY — the lead demo for Gemini Flash Meta Displays.
+ * OMNI-ODYSSEY — the lead demo for Gemini Display Kit.
  *
  * "A coherent, consequential illustrated adventure narrated by Gemini Flash,
  *  painted live by Nano Banana, with audience-conjured monsters woven in as
@@ -16,17 +16,17 @@
  * orchestrator (~490 lines) becomes this ~230-line file because the
  * framework owns the bridge / SSE / static / tunnel / QR.
  */
-import { defineGame } from "gemini-flash-meta-displays";
+import { defineGame } from "gemini-display-kit";
 import {
   generateScene,
   scenePrompt,
   generateText,
   runManagedAgent,
-} from "gemini-flash-meta-displays/tools";
+} from "gemini-display-kit/tools";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { firstJsonObject } from "gemini-flash-meta-displays/tools";
+import { firstJsonObject } from "gemini-display-kit/tools";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CINEMATIC_PATH = process.env.CINEMATIC_PATH || path.join(__dirname, "assets/intro.mp4");

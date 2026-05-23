@@ -4,7 +4,7 @@
  *
  * Smoke-tests the framework without making any network calls. Verifies:
  *   - CLI dispatches every documented subcommand
- *   - `gfmd create` scaffolds a template into a temp dir
+ *   - `gdk create` scaffolds a template into a temp dir
  *   - Tool modules export the expected functions (no Gemini calls)
  *   - The bridge `defineGame` shape validates
  */
@@ -32,7 +32,7 @@ function test(label, fn) {
 }
 
 function cli(...args) {
-  return spawnSync("node", [path.join(root, "bin/gfmd.mjs"), ...args], {
+  return spawnSync("node", [path.join(root, "bin/gdk.mjs"), ...args], {
     encoding: "utf8",
     cwd: root,
   });
@@ -59,7 +59,7 @@ test("create with no name errors", () => {
 });
 
 console.log("\nScaffold:");
-const tmpRoot = mkdtempSync(path.join(os.tmpdir(), "gfmd-smoke-"));
+const tmpRoot = mkdtempSync(path.join(os.tmpdir(), "gdk-smoke-"));
 try {
   test("create adventure template into temp dir", () => {
     const r = cli("create", "myproj", "--template", "adventure", "--dir", tmpRoot);
@@ -77,11 +77,11 @@ try {
       if (!content.includes("myproj")) throw new Error(`${f} doesn't contain project name`);
     }
   });
-  test("scaffolded package.json declares omni-glass-compatible dep", () => {
+  test("scaffolded package.json declares gdk-compatible dep", () => {
     const projDir = path.join(tmpRoot, "myproj");
     const pkg = JSON.parse(readFileSync(path.join(projDir, "package.json"), "utf8"));
-    if (!pkg.dependencies?.["gemini-flash-meta-displays"]) {
-      throw new Error("scaffolded package.json missing dependency on gemini-flash-meta-displays");
+    if (!pkg.dependencies?.["gemini-display-kit"]) {
+      throw new Error("scaffolded package.json missing dependency on gemini-display-kit");
     }
   });
 } finally {

@@ -35,7 +35,7 @@ voice/vision streaming, but glasses Web Apps **do not have access to the
 camera or microphone API** on the page. Live API expects bidirectional
 audio/video from the client, which the Web App surface can't provide
 without a native Android DAT companion. That's a Phase 3 path
-(`gfmd capture --source dat` once the DAT wrappers are vendored).
+(`gdk capture --source dat` once the DAT wrappers are vendored).
 
 ## Thinking-level control
 

@@ -2,11 +2,11 @@
  * src/tools/index.mjs — re-exports every Gemini surface wrapper.
  *
  * Game projects can either:
- *   import * as tools from "gemini-flash-meta-displays/tools";
+ *   import * as tools from "gemini-display-kit/tools";
  *   await tools.runManagedAgent({ ... });
  *
  * Or destructure:
- *   import { runManagedAgent, generateScene } from "gemini-flash-meta-displays/tools";
+ *   import { runManagedAgent, generateScene } from "gemini-display-kit/tools";
  *
  * Inside route handlers, the bridge passes `tools` in the context:
  *   "POST /api/director": async ({ body, tools, hud }) => {

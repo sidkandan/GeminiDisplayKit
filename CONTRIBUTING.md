@@ -1,4 +1,4 @@
-# Contributing to Gemini Flash Meta Displays
+# Contributing to Gemini Display Kit
 
 Thanks for your interest. This project was built at a 24-hour hackathon
 and is genuinely early — a lot of things are stubs or "Phase 3 — coming."
@@ -7,13 +7,13 @@ Contributions are welcome.
 ## Quick start for contributors
 
 ```bash
-git clone https://github.com/sidkandan/GeminiFlashMetaDisplays
-cd GeminiFlashMetaDisplays
+git clone https://github.com/sidkandan/GeminiDisplayKit
+cd GeminiDisplayKit
 npm install
 cp .env.example .env       # set GEMINI_API_KEY
 
 # Test the CLI works
-node bin/gfmd.mjs --help
+node bin/gdk.mjs --help
 
 # Run the framework smoke test
 npm test
@@ -28,9 +28,9 @@ improve the framework:
 - **`templates/quest/`** — extract the Director + scavenger pattern into a reusable template
 - **`templates/arena/`** — wrap Prompt Arena's Python engine via an `omni.config.mjs` that shells out
 - **Refactor `examples/prompt-arena/` to depend on the framework** — see `examples/prompt-arena/BONUS-NOT-DEMOED.md`
-- **`gfmd capture --source dat|pixel|file`** — currently a stub; needs to shell out to operator-gated capture scripts
+- **`gdk capture --source dat|pixel|file`** — currently a stub; needs to shell out to operator-gated capture scripts
 - **Unit tests for the bridge router** — `src/bridge/server.mjs` route matching has no test coverage
-- **Hot-reload for `display/` files in `gfmd dev`** — currently a manual refresh
+- **Hot-reload for `display/` files in `gdk dev`** — currently a manual refresh
 - **TypeScript types** — JSDoc is in place but a `.d.ts` would be nice
 
 ## Project structure

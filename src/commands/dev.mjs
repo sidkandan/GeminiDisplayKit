@@ -1,5 +1,5 @@
 /**
- * `gfmd dev` — boot the bridge, start a cloudflared quick-tunnel,
+ * `gdk dev` — boot the bridge, start a cloudflared quick-tunnel,
  * and print the install QR for the glasses.
  *
  * Order of operations is important: bridge first (so the tunnel has
@@ -19,7 +19,7 @@ export async function run({ flags }) {
   if (!configPath) {
     throw new Error(
       `no omni.config.mjs (or omni.config.js) found in ${cwd}\n` +
-      `run \`gfmd create <name> --template adventure\` first`
+      `run \`gdk create <name> --template adventure\` first`
     );
   }
 

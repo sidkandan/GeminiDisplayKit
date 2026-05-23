@@ -1,6 +1,6 @@
 # PROMPT ARENA
 
-> **📌 This is a bonus example inside [Gemini Flash Meta Displays](../../README.md).**
+> **📌 This is a bonus example inside [Gemini Display Kit](../../README.md).**
 > Not part of the live hackathon demo. See [`BONUS-NOT-DEMOED.md`](./BONUS-NOT-DEMOED.md) for why it's in the repo.
 
 **Built live at the Google I/O Hackathon (Cerebral Valley) — 2026-05-23. 100% new work, written during the event.**

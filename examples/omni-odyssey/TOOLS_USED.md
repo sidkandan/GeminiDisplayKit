@@ -7,7 +7,7 @@
 
 **What it is:** A live, AI-painted choose-your-path adventure on Meta Ray-Ban Display. A Veo cinematic opens it; **Gemini 3.5 Flash** narrates a coherent, consequential story; **Nano Banana** paints every scene and every creature — including monsters the **audience conjures live** at `<tunnel>/conjure`.
 
-**SDK:** `@google/genai` (JavaScript), wrapped by `gemini-flash-meta-displays/tools`. API key in a gitignored `.env` (`chmod 600`), loaded server-side only — never shipped to the client, the QR, or logs.
+**SDK:** `@google/genai` (JavaScript), wrapped by `gemini-display-kit/tools`. API key in a gitignored `.env` (`chmod 600`), loaded server-side only — never shipped to the client, the QR, or logs.
 
 ---
 
@@ -47,4 +47,4 @@ The bestiary can be **seeded with PROMPT ARENA's 8 trained creatures** (set `SEE
 
 ## Hardware surface
 
-Meta Ray-Ban Display Web App (600×600, `display/index.html`), input via Neural Band (D-pad + pinch); served by `gfmd dev` (Node bridge on `:8787` + a Cloudflare quick tunnel). No camera or microphone on the glasses surface (W3C Web App constraints) — all imagery is *generated*, never captured/analyzed.
+Meta Ray-Ban Display Web App (600×600, `display/index.html`), input via Neural Band (D-pad + pinch); served by `gdk dev` (Node bridge on `:8787` + a Cloudflare quick tunnel). No camera or microphone on the glasses surface (W3C Web App constraints) — all imagery is *generated*, never captured/analyzed.

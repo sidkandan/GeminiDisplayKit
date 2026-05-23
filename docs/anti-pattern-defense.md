@@ -1,7 +1,7 @@
 # Anti-pattern defense
 
 > The hackathon rules list **disqualified project types**. This document
-> shows why Gemini Flash Meta Displays does not fall into any of them.
+> shows why Gemini Display Kit does not fall into any of them.
 
 ## The banned list, item by item
 
@@ -32,9 +32,9 @@ service whose product *is* the description of an image. It's banned
 because it's a trivial, oft-built wrapper around Gemini's multimodal
 capability without meaningful product on top.
 
-### What Gemini Flash Meta Displays actually is
+### What Gemini Display Kit actually is
 
-**Gemini Flash Meta Displays is a framework that helps developers build
+**Gemini Display Kit is a framework that helps developers build
 games on a smart-glasses platform.** The framework itself does not
 analyze any images — it is infrastructure (HTTP, SSE, tunnel, CLI,
 templates).
@@ -91,10 +91,10 @@ image is mechanical input; the product is game state.
 
 ### "Open Source: repositories must be public"
 
-The repo will be made public at `https://github.com/sidkandan/GeminiFlashMetaDisplays` per the push checklist. Confirm by:
+The repo will be made public at `https://github.com/sidkandan/GeminiDisplayKit` per the push checklist. Confirm by:
 
 ```bash
-gh repo view sidkandan/GeminiFlashMetaDisplays --json visibility
+gh repo view sidkandan/GeminiDisplayKit --json visibility
 ```
 
 ### "Demo must only highlight specific features, code, and functionality that your team built during the hackathon"

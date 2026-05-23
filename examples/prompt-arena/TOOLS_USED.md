@@ -25,7 +25,7 @@ Each trace contains the full agent loop including `function_call` / `function_re
 
 ## Tools the parent framework also uses
 
-The parent framework (`gfmd`) wires several additional Gemini surfaces not exercised by Prompt Arena specifically:
+The parent framework (`gdk`) wires several additional Gemini surfaces not exercised by Prompt Arena specifically:
 
 - **Nano Banana (`gemini-3.1-flash-image-preview`)** — scene generation in OMNI-ODYSSEY (see `../omni-odyssey/`)
 - **Veo (`veo-3.1-fast-generate-preview`)** — cinematic intros (see `../../src/tools/veo.mjs`)

@@ -19,7 +19,7 @@
 2. **Managed Agents** (the headline new Gemini capability)
 3. **Heads-Up Display (HUD)** (the Meta Ray-Ban Display surface we target)
 
-Internal placeholder is `GeminiFlashMetaDisplays`. **You decide the final name.** Pick something memorable, short, pronounceable. The repo URL will be `https://github.com/sidkandan/<YOUR-NAME>`.
+Internal placeholder is `GeminiDisplayKit`. **You decide the final name.** Pick something memorable, short, pronounceable. The repo URL will be `https://github.com/sidkandan/<YOUR-NAME>`.
 
 Brainstorming seeds (you can riff on these or invent fresh):
 
@@ -38,24 +38,24 @@ NAME="<your-chosen-name>"   # e.g., NAME="AgentLens"
 cd $REPO_DIR
 
 # Update README.md, SUBMISSION.md, SUBMISSION-FORM.md, package.json, PUSH-CHECKLIST.md
-sed -i '' "s|sidkandan/GeminiFlashMetaDisplays|sidkandan/$NAME|g" \
+sed -i '' "s|sidkandan/GeminiDisplayKit|sidkandan/$NAME|g" \
   README.md SUBMISSION.md SUBMISSION-FORM.md package.json PUSH-CHECKLIST.md \
   examples/omni-odyssey/README.md examples/pulseblade/README.md \
   templates/adventure/README.md examples/prompt-arena/README.md \
   docs/*.md CONTRIBUTORS.md CONTRIBUTING.md
 
 # Verify nothing missed
-grep -rE 'GeminiFlashMetaDisplays' --exclude-dir=node_modules --exclude-dir=.git . | head
+grep -rE 'GeminiDisplayKit' --exclude-dir=node_modules --exclude-dir=.git . | head
 
 # Optional: also rename the npm package name (low-impact since we use it via file:// locally)
-# Leave `gfmd` as the CLI binary name regardless.
+# Leave `gdk` as the CLI binary name regardless.
 
 # Commit the rename
 git add -A
 git commit -m "chore: pick public repo name — $NAME"
 ```
 
-If you want to keep `gemini-flash-meta-displays` as the npm package name and just use the new name as the GitHub repo URL, that's also fine — the npm name doesn't have to match the GitHub repo.
+If you want to keep `gemini-display-kit` as the npm package name and just use the new name as the GitHub repo URL, that's also fine — the npm name doesn't have to match the GitHub repo.
 
 ---
 
@@ -131,7 +131,7 @@ TMPDIR=$(mktemp -d) && cd "$TMPDIR" && \
 git clone https://github.com/sidkandan/$NAME.git && \
 cd $NAME && \
 ls -la && \
-node bin/gfmd.mjs --version
+node bin/gdk.mjs --version
 ```
 
 Expected:
@@ -139,7 +139,7 @@ Expected:
 - All top-level docs visible
 - `examples/` contains `omni-odyssey/`, `pulseblade/`, `prompt-arena/`
 - `examples/prompt-arena/data/traces/` contains the 3 captured trace JSON files (the managed-agents prize evidence)
-- `node bin/gfmd.mjs --version` prints `0.1.0`
+- `node bin/gdk.mjs --version` prints `0.1.0`
 
 ## Step 5 — Submit to the hackathon
 

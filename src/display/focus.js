@@ -1,8 +1,8 @@
 /*
- * gemini-flash-meta-displays/display/focus.js — D-pad / Neural Band focus model.
+ * gemini-display-kit/display/focus.js — D-pad / Neural Band focus model.
  *
  * Add `.focusable` to any element. Then:
- *   <script src="/gemini-flash-meta-displays/display/focus.js"></script>
+ *   <script src="/gemini-display-kit/display/focus.js"></script>
  *   <script>
  *     OmniFocus.init({
  *       onActivate: (el) => sendAction(el.dataset.action),

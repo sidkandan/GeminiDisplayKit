@@ -1,8 +1,8 @@
 /*
- * gemini-flash-meta-displays/display/events.js — SSE client with auto-reconnect.
+ * gemini-display-kit/display/events.js — SSE client with auto-reconnect.
  *
  * Usage:
- *   <script src="/gemini-flash-meta-displays/display/events.js"></script>
+ *   <script src="/gemini-display-kit/display/events.js"></script>
  *   <script>
  *     OmniEvents.connect({
  *       url: "/events",

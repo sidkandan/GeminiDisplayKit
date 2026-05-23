@@ -1,11 +1,10 @@
 {
-  "name": "gemini-flash-meta-displays",
+  "name": "gemini-display-kit",
   "version": "0.1.0",
   "description": "Gemini-powered SDK + CLI for building games on Meta Ray-Ban Display. Built at the Google I/O Hackathon 2026-05-23.",
   "type": "module",
   "bin": {
-    "gfmd": "bin/gfmd.mjs",
-    "gemini-flash-meta-displays": "bin/gfmd.mjs"
+    "gemini-display-kit": "bin/gdk.mjs"
   },
   "exports": {
     ".": "./src/index.mjs",
@@ -22,7 +21,7 @@
     "NOTICE"
   ],
   "scripts": {
-    "dev": "node bin/gfmd.mjs dev",
+    "dev": "node bin/gdk.mjs dev",
     "test": "node scripts/smoke.mjs",
     "scrub": "bash scripts/scrub-for-publish.sh",
     "preflight": "bash scripts/demo-day.sh",
@@ -43,7 +42,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sidkandan/GeminiFlashMetaDisplays"
+    "url": "https://github.com/sidkandan/GeminiDisplayKit"
   },
   "engines": {
     "node": ">=18.0.0"

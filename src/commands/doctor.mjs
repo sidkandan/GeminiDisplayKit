@@ -1,5 +1,5 @@
 /**
- * `gfmd doctor` — pre-flight checks for the device/glasses path.
+ * `gdk doctor` — pre-flight checks for the device/glasses path.
  *
  * Reports on:
  *   - Node version
@@ -16,7 +16,7 @@ import { spawnSync } from "node:child_process";
 export async function run({ flags }) {
   const serial = flags.serial || process.env.ADB_SERIAL || "";
 
-  console.log("Gemini Flash Meta Displays doctor\n");
+  console.log("Gemini Display Kit doctor\n");
 
   report("node",       process.version);
   report("cloudflared", binVersion("cloudflared", ["--version"]));

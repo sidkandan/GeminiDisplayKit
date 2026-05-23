@@ -1,9 +1,9 @@
-# Getting started with Gemini Flash Meta Displays
+# Getting started with Gemini Display Kit
 
 ## Install
 
 ```bash
-npm install -g gfmd    # or use `npx gfmd …` without installing
+npm install -g gdk    # or use `npx gdk …` without installing
 ```
 
 Requirements:
@@ -16,11 +16,11 @@ Requirements:
 ## Your first game
 
 ```bash
-gfmd create my-game --template adventure
+gdk create my-game --template adventure
 cd my-game
 cp .env.example .env       # paste your GEMINI_API_KEY
 npm install
-gfmd dev
+gdk dev
 ```
 
 You'll see something like:
@@ -66,8 +66,8 @@ That's it. The framework runs everything around this.
 ## The `omni.config.mjs` contract
 
 ```js
-import { defineGame } from "gemini-flash-meta-displays";
-import { runManagedAgent, generateScene } from "gemini-flash-meta-displays/tools";
+import { defineGame } from "gemini-display-kit";
+import { runManagedAgent, generateScene } from "gemini-display-kit/tools";
 
 export default defineGame({
   name: "MyGame",                  // shown in the Meta AI install sheet
@@ -101,7 +101,7 @@ The handler context exposes:
 | `url` | the request URL (`URL` object) |
 | `params` | `:param` placeholders matched from the route |
 | `hud.broadcast(payload)` | push to all SSE-connected display clients |
-| `tools` | every wrapper from `gemini-flash-meta-displays/tools` |
+| `tools` | every wrapper from `gemini-display-kit/tools` |
 | `method`, `headers` | as named |
 
 Return any plain object — it's serialized as the HTTP response.
@@ -110,12 +110,12 @@ override the status code.
 
 ## Going to production
 
-`gfmd dev` uses a cloudflared **quick-tunnel** whose URL rotates every
+`gdk dev` uses a cloudflared **quick-tunnel** whose URL rotates every
 restart. For a stable URL, deploy your bridge to anywhere Node runs (Cloud
 Run, Fly, Vercel, a paid Cloudflare named tunnel) and use:
 
 ```bash
-gfmd deploy --url https://my-stable.example/ --name MyGame
+gdk deploy --url https://my-stable.example/ --name MyGame
 ```
 
 That writes a PNG QR (`artifacts/install-qr.png`) you can print and re-use.

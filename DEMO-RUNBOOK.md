@@ -1,4 +1,4 @@
-# Gemini Flash Meta Displays — Demo Runbook
+# Gemini Display Kit — Demo Runbook
 
 **One-liner:** A CLI + SDK that lets a developer scaffold, dev-loop, and deploy Gemini-powered games on Meta Ray-Ban Display in three commands. Built live at the Google I/O Hackathon today. Two demo games + one bonus example ship in the repo — all prototyped today and refactored to depend on the framework.
 
@@ -12,9 +12,9 @@
 
 **0:15 — Live scaffold.** Terminal up, fresh shell.
 ```bash
-npx gfmd create demo-game --template adventure
+npx gdk create demo-game --template adventure
 cd demo-game && cp .env.example .env  # pre-edited with the key
-npx gfmd dev
+npx gdk dev
 ```
 Within ~10 seconds the terminal prints: bridge URL, tunnel URL, deep-link, **a giant scannable QR.** "That QR is the install. The bridge holds the Gemini key. The tunnel is HTTPS — required by the glasses."
 
@@ -35,7 +35,7 @@ Within ~10 seconds the terminal prints: bridge URL, tunnel URL, deep-link, **a g
 
 **2:50 — The turn.** "Framework, two demo games, one bonus example, all built today. Three managed-agent patterns — director, world-balancer, hatchery — proven in code. The framework is the moat: any developer can ship a glasses game tomorrow with the same one-liners."
 
-**2:55 — Provenance.** "Public repo: github.com/sidkandan/GeminiFlashMetaDisplays. First commit at event start. Every line of the framework — and the example games — was written today. `PROVENANCE.md` has the file-by-file ledger."
+**2:55 — Provenance.** "Public repo: github.com/sidkandan/GeminiDisplayKit. First commit at event start. Every line of the framework — and the example games — was written today. `PROVENANCE.md` has the file-by-file ledger."
 
 ---
 
@@ -43,7 +43,7 @@ Within ~10 seconds the terminal prints: bridge URL, tunnel URL, deep-link, **a g
 
 | Time | Shot |
 |---|---|
-| 0–8s | hook + the `gfmd create / dev` terminal moment, QR appears |
+| 0–8s | hook + the `gdk create / dev` terminal moment, QR appears |
 | 8–20s | phone scan → glasses HUD lights up → rune-portal scene |
 | 20–35s | pinch → Nano Banana paints the next world (the visual wow) |
 | 35–48s | **the PROMPT ARENA hatchery trace** — the managed agent writing & running code in a sandbox (the managed-agents prize shot) |
@@ -59,7 +59,7 @@ See [`docs/video-script.md`](docs/video-script.md) for the shot-by-shot version.
 - [ ] `.env` file in `examples/omni-odyssey/`, `examples/pulseblade/`, `examples/prompt-arena/` — each with a valid `GEMINI_API_KEY`
 - [ ] `npm install` already run in framework root AND in `examples/omni-odyssey` and `examples/pulseblade`
 - [ ] `.venv` already set up in `examples/prompt-arena` (Python venv + `pip install -r requirements.txt` if present, otherwise `pip install google-genai flask python-dotenv`)
-- [ ] One `gfmd dev` rehearsal — ensure cloudflared brings up a tunnel within 10s (re-run if it fails the first time, the trycloudflare API is intermittent)
+- [ ] One `gdk dev` rehearsal — ensure cloudflared brings up a tunnel within 10s (re-run if it fails the first time, the trycloudflare API is intermittent)
 - [ ] Pixel + glasses paired and the Meta AI app pre-opened
 - [ ] PROMPT ARENA: `.venv/bin/python run_demo.py --hatch` ran once so `data/tournament.json` is the frozen "golden" snapshot (cached strategies + sprites + audio)
 - [ ] OMNI-ODYSSEY: `node scripts/prewarm-odyssey.mjs` ran once so `examples/omni-odyssey/assets/intro.mp4` (Veo cinematic) + `opening-scene.jpg` exist
@@ -81,7 +81,7 @@ See [`scripts/demo-day.sh`](scripts/demo-day.sh) for the automatable parts of th
 
 ## Reliability ladder (protect the 45% live-demo score)
 
-1. **Primary:** `npx gfmd dev` in front of the judges — fresh scaffold, fresh tunnel, fresh QR. The CLI is the moat; show it working from zero.
+1. **Primary:** `npx gdk dev` in front of the judges — fresh scaffold, fresh tunnel, fresh QR. The CLI is the moat; show it working from zero.
 2. **Tunnel fails (trycloudflare intermittent):** re-run the same command — it succeeds on retry in our testing. Otherwise fall back to (3).
-3. **Network dies during the live scaffold:** switch to the pre-warmed `examples/omni-odyssey/` running on `gfmd dev --no-tunnel` against localhost on the operator's laptop — point at the running browser-tab HUD instead.
+3. **Network dies during the live scaffold:** switch to the pre-warmed `examples/omni-odyssey/` running on `gdk dev --no-tunnel` against localhost on the operator's laptop — point at the running browser-tab HUD instead.
 4. **Hard net failure:** play the 1-minute recorded video and walk through `examples/prompt-arena/data/traces/m_emberton.json` in the editor (offline, captured artifacts).

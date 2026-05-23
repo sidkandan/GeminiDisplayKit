@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "gfmd dev",
-    "deploy": "gfmd deploy --name OmniOdyssey"
+    "dev": "gdk dev",
+    "deploy": "gdk deploy --name OmniOdyssey"
   },
   "dependencies": {
-    "gemini-flash-meta-displays": "file:../.."
+    "gemini-display-kit": "file:../.."
   }
 }

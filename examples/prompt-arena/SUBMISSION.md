@@ -1,6 +1,6 @@
 # ⚠️ ARCHIVED — see [../../SUBMISSION.md](../../SUBMISSION.md)
 
-> This was the standalone-project pitch from earlier in the day, before Prompt Arena became a bonus example inside the parent framework. The actual hackathon submission is `Gemini Flash Meta Displays` — see the repository root `SUBMISSION.md` and `README.md`.
+> This was the standalone-project pitch from earlier in the day, before Prompt Arena became a bonus example inside the parent framework. The actual hackathon submission is `Gemini Display Kit` — see the repository root `SUBMISSION.md` and `README.md`.
 
 > The rest of this file is preserved for provenance.
 

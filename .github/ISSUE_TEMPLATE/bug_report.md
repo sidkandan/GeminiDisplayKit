@@ -23,7 +23,7 @@ labels: bug
 
 - Node version: `node -v`
 - OS: macOS / Linux / Windows
-- gfmd version: `gfmd --version`
+- gdk version: `gdk --version`
 
 ## Logs
 

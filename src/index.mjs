@@ -1,21 +1,21 @@
 /**
- * gfmd — public SDK surface.
+ * gdk — public SDK surface.
  *
  * Game projects import from here:
  *
- *   import { defineGame, tools, sse } from "gemini-flash-meta-displays";
+ *   import { defineGame, tools, sse } from "gemini-display-kit";
  *
  * Direct sub-imports work too:
  *
- *   import { runManagedAgent } from "gemini-flash-meta-displays/tools";
- *   import { startBridge } from "gemini-flash-meta-displays/bridge";
+ *   import { runManagedAgent } from "gemini-display-kit/tools";
+ *   import { startBridge } from "gemini-display-kit/bridge";
  */
 export { startBridge } from "./bridge/server.mjs";
 export * as tools from "./tools/index.mjs";
 
 /**
  * defineGame — type-checking sugar and the canonical place game projects
- * declare their bridge routes + display directory. Run by `gfmd dev`.
+ * declare their bridge routes + display directory. Run by `gdk dev`.
  *
  * @param {{
  *   name: string,

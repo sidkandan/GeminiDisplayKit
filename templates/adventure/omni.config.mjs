@@ -3,11 +3,11 @@
  *
  * "Pick a door → Nano Banana paints the next world."
  *
- * This config declares the game's surface. The framework (gfmd) takes
+ * This config declares the game's surface. The framework (gdk) takes
  * care of the HTTP server, SSE, static serving, tool wiring, tunnel, QR.
  */
-import { defineGame } from "gemini-flash-meta-displays";
-import { generateScene, scenePrompt, runManagedAgent } from "gemini-flash-meta-displays/tools";
+import { defineGame } from "gemini-display-kit";
+import { generateScene, scenePrompt, runManagedAgent } from "gemini-display-kit/tools";
 
 /** In-memory game state. For a single-tunnel demo this is fine. */
 const state = {

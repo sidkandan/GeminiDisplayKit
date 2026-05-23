@@ -1,6 +1,6 @@
 # Examples
 
-Three games built with [Gemini Flash Meta Displays](../README.md) — each
+Three games built with [Gemini Display Kit](../README.md) — each
 demonstrates a different slice of the framework + a different
 managed-agent pattern.
 
@@ -32,7 +32,7 @@ For Odyssey + PulseBlade (framework-dependent):
 ```
 examples/<game>/
 ├── omni.config.mjs       # game definition (routes, display, onStart)
-├── package.json          # depends on "gemini-flash-meta-displays": "file:../.."
+├── package.json          # depends on "gemini-display-kit": "file:../.."
 ├── display/              # 600×600 HUD
 ├── .env.example
 └── README.md
@@ -55,7 +55,7 @@ examples/prompt-arena/
 cd examples/<game>
 cp ../../.env.example .env       # set GEMINI_API_KEY
 npm install                       # (or .venv setup for prompt-arena)
-gfmd dev                          # (or .venv/bin/python server.py for prompt-arena)
+gdk dev                          # (or .venv/bin/python server.py for prompt-arena)
 ```
 
 See each `<game>/README.md` for specifics.

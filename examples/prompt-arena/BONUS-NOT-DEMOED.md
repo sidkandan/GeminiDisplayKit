@@ -64,7 +64,7 @@ To re-train the 5 remaining monsters:
 
 ## How this relates to the framework
 
-This example **does NOT yet depend on `gemini-flash-meta-displays`** — it's a
+This example **does NOT yet depend on `gemini-display-kit`** — it's a
 Python project that predates the framework refactor. It runs standalone via
 its own Flask server. The framework's role here is as a doc + provenance
 anchor: this is the project that proved the **Hatchery** pattern documented

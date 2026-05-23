@@ -68,7 +68,7 @@ export async function runManagedAgent(options) {
         target: ".agents/AGENTS.md",
         content:
           options.systemInstruction ||
-          "You are a managed agent invoked from an Gemini Flash Meta Displays game running on Meta Ray-Ban Display. Be concise, executable, never include secrets.",
+          "You are a managed agent invoked from an Gemini Display Kit game running on Meta Ray-Ban Display. Be concise, executable, never include secrets.",
       },
     ],
   };

@@ -2,7 +2,7 @@
 
 > **The lead demo.** A coherent, consequential illustrated adventure — narrated live by Gemini Flash, painted live by Nano Banana, with audience-conjured monsters woven in as encounters.
 
-A self-contained game built with [Gemini Flash Meta Displays](../../README.md).
+A self-contained game built with [Gemini Display Kit](../../README.md).
 
 See [`TOOLS_USED.md`](TOOLS_USED.md) for the full Gemini-tools map.
 
@@ -41,7 +41,7 @@ See [`TOOLS_USED.md`](TOOLS_USED.md) for the full Gemini-tools map.
 cd examples/omni-odyssey
 cp .env.example .env       # set GEMINI_API_KEY
 npm install
-gfmd dev
+gdk dev
 ```
 
 Then either:
@@ -57,7 +57,7 @@ node ../../scripts/prewarm-odyssey.mjs
 To seed the bestiary with PROMPT ARENA's 8 trained monsters (repainted in the storybook style):
 
 ```bash
-SEED_TRAINED=1 gfmd dev
+SEED_TRAINED=1 gdk dev
 ```
 
 That fires 8 Nano Banana calls in the background (~2 min total) as soon as the server boots.

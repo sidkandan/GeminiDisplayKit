@@ -1,4 +1,4 @@
-# Gemini Flash Meta Displays — Architecture
+# Gemini Display Kit — Architecture
 
 ## The split
 
@@ -52,13 +52,13 @@ The glasses require public HTTPS to load your Web App. localhost doesn't
 reach them. Cloudflare's quick-tunnel (`cloudflared tunnel --url …`)
 gives you a free `https://*.trycloudflare.com` URL with zero setup —
 perfect for dev. For production, point a stable named tunnel (or any
-Node-hosting platform) at your bridge and use `gfmd deploy` to mint a
+Node-hosting platform) at your bridge and use `gdk deploy` to mint a
 QR that doesn't rotate.
 
 ## How a game defines itself
 
 A game is one file: `omni.config.mjs`. It exports a `defineGame({ name,
-display, routes, onStart })` object. The CLI's `gfmd dev` loads it,
+display, routes, onStart })` object. The CLI's `gdk dev` loads it,
 hands it to `startBridge`, and the bridge does the rest.
 
 This is the same pattern Next.js uses with `next.config.js` and React Router

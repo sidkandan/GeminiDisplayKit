@@ -1,4 +1,4 @@
-# Gemini Flash Meta Displays
+# Gemini Display Kit
 
 **A Gemini-powered SDK + CLI for building games on Meta Ray-Ban Display.**
 
@@ -14,13 +14,13 @@ Ship a smart-glasses game in minutes — one command scaffolds a 600×600 HUD, a
 
 Meta Ray-Ban Display just opened up. The Web Apps surface is HTML/CSS/JS in a 600×600 viewport, driven by D-pad/Neural Band keys, with no camera/mic on the page. To build anything good on it you have to assemble: a bridge server that holds your Gemini key, an SSE pattern that pushes results to the glasses, a deep-link install flow, a way to mint cinematic clips with Veo without blocking the loop, a way to use managed agents as game directors — and a Cloudflare tunnel because the glasses need public HTTPS.
 
-That stack took us a day of plumbing. **Gemini Flash Meta Displays is that stack, packaged.** Three commands take you from `npx gfmd create` to scanning a QR with your phone and seeing your game on the lenses.
+That stack took us a day of plumbing. **Gemini Display Kit is that stack, packaged.** Three commands take you from `npx gdk create` to scanning a QR with your phone and seeing your game on the lenses.
 
 ```bash
-npx gfmd create my-game --template adventure
+npx gdk create my-game --template adventure
 cd my-game
-gfmd dev           # localhost + cloudflared tunnel + auto-QR on console
-gfmd deploy        # public HTTPS URL + `fb-viewapp://` deep-link QR
+gdk dev           # localhost + cloudflared tunnel + auto-QR on console
+gdk deploy        # public HTTPS URL + `fb-viewapp://` deep-link QR
 ```
 
 That's it. The boilerplate that the framework writes for you includes:
@@ -28,7 +28,7 @@ That's it. The boilerplate that the framework writes for you includes:
 - **Bridge** (`src/bridge/server.mjs`) — Node HTTP + SSE + static + Gemini routing, with per-game route handlers
 - **Display SDK** (`src/display/`) — 600×600 reset CSS, D-pad focus model, SSE client with auto-reconnect
 - **Tool wrappers** (`src/tools/`) — `runManagedAgent`, `generateScene` (Nano Banana), `runLyriaClip`, `generateTTS`, `generateCinematic` (Veo), `requestStructured` (Flash JSON-mode)
-- **CLI** (`bin/gfmd.mjs`) — `create`, `dev`, `deploy`, `doctor`, `capture`
+- **CLI** (`bin/gdk.mjs`) — `create`, `dev`, `deploy`, `doctor`, `capture`
 
 ## Games we built with it
 
@@ -38,7 +38,7 @@ That's it. The boilerplate that the framework writes for you includes:
 | **[PulseBlade](examples/pulseblade/)** | **Second live demo** | Original wearable rhythm game; Flash designs the level, Lyria scores the track | Flash structured output (level designer), Lyria 3 (backing track), Managed agent (director note) |
 | **[PROMPT ARENA](examples/prompt-arena/)** *(bonus — not live-demoed)* | Managed-agents code-execution proof | 8 monsters, each trained by its own agent that writes & runs Python in a sandbox | **Managed agents + code execution** (per-entity hatchery), Imagen (sprites), TTS (sportscaster), Structured output |
 
-Each is a self-contained project that depends only on `gfmd`. Open any one and you can read top to bottom how a Display Web App is structured. Clone, drop in your `GEMINI_API_KEY`, run `gfmd dev`, scan the QR. You're on the glasses in two minutes.
+Each is a self-contained project that depends only on `gdk`. Open any one and you can read top to bottom how a Display Web App is structured. Clone, drop in your `GEMINI_API_KEY`, run `gdk dev`, scan the QR. You're on the glasses in two minutes.
 
 ## Why "managed agents are the spine"
 
@@ -59,13 +59,13 @@ A judge asking *"how is this managed agents, not just API calls?"* gets four pre
 
 ```bash
 # 1. Scaffold
-npx gfmd create my-game --template adventure
+npx gdk create my-game --template adventure
 cd my-game
 cp .env.example .env
 # edit .env — set GEMINI_API_KEY
 
 # 2. Dev — boots the bridge on :8787 and a quick Cloudflare tunnel, prints the QR
-gfmd dev
+gdk dev
 
 # 3. Add to glasses
 #    - Scan the printed QR with your Pixel camera
@@ -73,10 +73,10 @@ gfmd dev
 #    - Open the app on the glasses
 
 # 4. (optional) Health check the device path before live demo day
-gfmd doctor
+gdk doctor
 ```
 
-`gfmd dev` outputs:
+`gdk dev` outputs:
 
 ```
 [bridge]   http://127.0.0.1:8787/
@@ -100,12 +100,12 @@ gfmd doctor
 
 | Command | What it does |
 |---|---|
-| `gfmd create <name> --template <t>` | Scaffold a new project from a template (`adventure` — others coming) |
-| `gfmd dev` | Boot the bridge + Cloudflare quick-tunnel, print install QR, hot-reload display files |
-| `gfmd deploy` | Mint a stable deep-link + QR; optionally hand off to a hosting target |
-| `gfmd doctor` | Probe Pixel ADB state, Stella version, CameraAccess entitlement (Pixel/glasses path) |
-| `gfmd capture --source dat\|pixel` | Operator-gated frame capture from glasses/phone for testing your bridge |
-| `gfmd agent run` | One-shot managed-agent invocation from the terminal — useful for testing prompts |
+| `gdk create <name> --template <t>` | Scaffold a new project from a template (`adventure` — others coming) |
+| `gdk dev` | Boot the bridge + Cloudflare quick-tunnel, print install QR, hot-reload display files |
+| `gdk deploy` | Mint a stable deep-link + QR; optionally hand off to a hosting target |
+| `gdk doctor` | Probe Pixel ADB state, Stella version, CameraAccess entitlement (Pixel/glasses path) |
+| `gdk capture --source dat\|pixel` | Operator-gated frame capture from glasses/phone for testing your bridge |
+| `gdk agent run` | One-shot managed-agent invocation from the terminal — useful for testing prompts |
 
 ## Provenance
 

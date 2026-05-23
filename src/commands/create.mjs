@@ -1,5 +1,5 @@
 /**
- * `gfmd create <name> --template <t>`
+ * `gdk create <name> --template <t>`
  *
  * Copies the named template from <framework>/templates/<t>/ into ./<name>/
  * and rewrites the project name in package.json + README.
@@ -13,7 +13,7 @@ const KNOWN_TEMPLATES = ["adventure", "arena", "scanner", "rhythm", "quest"];
 export async function run({ positional, flags }) {
   const name = positional[0];
   if (!name) {
-    throw new Error("create: missing project name\nUsage: gfmd create <name> --template <t>");
+    throw new Error("create: missing project name\nUsage: gdk create <name> --template <t>");
   }
   const template = flags.template || "adventure";
   if (!KNOWN_TEMPLATES.includes(template)) {
@@ -41,7 +41,7 @@ export async function run({ positional, flags }) {
   console.log(`  cd ${path.relative(process.cwd(), dest) || name}`);
   console.log(`  cp .env.example .env   # then set GEMINI_API_KEY`);
   console.log(`  npm install`);
-  console.log(`  npx gfmd dev`);
+  console.log(`  npx gdk dev`);
 }
 
 async function copyDir(src, dest) {

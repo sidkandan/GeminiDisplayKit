@@ -10,8 +10,8 @@
  * NOT Beat Saber. Original mechanic, original level designer, original
  * audio generation path.
  */
-import { defineGame } from "gemini-flash-meta-displays";
-import { runLyriaClip, makeLyriaPrompt, runManagedAgent, requestStructured } from "gemini-flash-meta-displays/tools";
+import { defineGame } from "gemini-display-kit";
+import { runLyriaClip, makeLyriaPrompt, runManagedAgent, requestStructured } from "gemini-display-kit/tools";
 import {
   buildFallbackLevel,
   makeLyriaPrompt as makeLyriaPromptFromLib,

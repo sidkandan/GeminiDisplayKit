@@ -46,8 +46,8 @@ Read [`docs/anti-pattern-defense.md`](anti-pattern-defense.md). It addresses eve
 
 ```bash
 # Clone
-git clone https://github.com/sidkandan/GeminiFlashMetaDisplays
-cd GeminiFlashMetaDisplays
+git clone https://github.com/sidkandan/GeminiDisplayKit
+cd GeminiDisplayKit
 npm install
 
 # Pick an example
@@ -55,7 +55,7 @@ cd examples/omni-odyssey
 cp ../../.env.example .env
 # Edit .env: set GEMINI_API_KEY (get one at https://aistudio.google.com/)
 npm install
-npx gfmd dev
+npx gdk dev
 
 # Then either:
 #   - Open the bridge URL in a browser to see the HUD locally
@@ -66,7 +66,7 @@ npx gfmd dev
 
 In order of weight:
 
-1. **Live demo (45%):** Watch the 3-minute live walkthrough. The `gfmd create → dev → glasses` flow is the hero moment.
+1. **Live demo (45%):** Watch the 3-minute live walkthrough. The `gdk create → dev → glasses` flow is the hero moment.
 2. **Creativity (35%):** No equivalent framework exists for this platform. The framework primitive + the four managed-agent patterns + the QR install flow is novel.
 3. **Impact (20%):** Developer-tools have multiplier impact. Meta Display is a brand-new platform; first-mover frameworks tend to define how the platform is built on.
 
@@ -74,7 +74,7 @@ In order of weight:
 
 | Criterion | Weight | What you need to see | Our strongest evidence |
 |---|---|---|---|
-| **Live Demo** | 45% | It runs live and is more than a mockup | `gfmd dev` boots bridge + tunnel + QR in <10s in front of you; OMNI-ODYSSEY narrates + paints with audience-conjured monsters; PulseBlade plays on real Meta Display hardware |
+| **Live Demo** | 45% | It runs live and is more than a mockup | `gdk dev` boots bridge + tunnel + QR in <10s in front of you; OMNI-ODYSSEY narrates + paints with audience-conjured monsters; PulseBlade plays on real Meta Display hardware |
 | **Creativity** | 35% | Not another chatbot/RAG/image-analyzer | First-of-its-kind framework for Meta Display Web Apps; four distinct managed-agent use patterns (Director, Hatchery with code execution, World-balancer, Hint-giver); audience-conjure mechanic; cross-example monster wire-up (PROMPT ARENA → OMNI-ODYSSEY bestiary) |
 | **Impact Potential** | 20% | It can matter after the hackathon | Reusable public Gemini SDK path for Meta Display Web Apps; documented MacBook Pro runbook; templates make next developer's first game a 5-minute task |
 | **Best Use of Managed Agents** | $5k bonus | Managed Agents are central and visible | `runManagedAgent` with `threadKey` (fixes cross-surface contamination); captured `code_execution_call` traces at `examples/prompt-arena/data/traces/m_emberton.json`; four patterns documented in `docs/managed-agents.md`; `interactionId` + `environmentId` surfaced as proof |

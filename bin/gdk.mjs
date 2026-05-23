@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * gfmd — CLI entry point.
+ * gdk — CLI entry point.
  *
  * Subcommands:
  *   create <name> --template <t>   scaffold a new project
@@ -21,7 +21,7 @@ const [command, ...rest] = argv;
 try {
   await dispatch(command, rest);
 } catch (error) {
-  console.error(`gfmd: ${error.message}`);
+  console.error(`gdk: ${error.message}`);
   if (process.env.OMNI_DEBUG) console.error(error.stack);
   process.exit(1);
 }

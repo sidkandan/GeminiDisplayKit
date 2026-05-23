@@ -1,20 +1,20 @@
-# Gemini Flash Meta Displays — Cerebral Valley / Google I/O Hackathon submission
+# Gemini Display Kit — Cerebral Valley / Google I/O Hackathon submission
 
-**Project name:** Gemini Flash Meta Displays (`gfmd`)
+**Project name:** Gemini Display Kit (`gdk`)
 
 **Tagline:** A CLI + SDK that turns Gemini 3.5 Flash, managed agents, Nano Banana, Lyria, and Veo into game-ready primitives for Meta Ray-Ban Display. Two live-demo games + one bonus example included.
 
-**Repo (public):** https://github.com/sidkandan/GeminiFlashMetaDisplays
+**Repo (public):** https://github.com/sidkandan/GeminiDisplayKit
 
 **Demo video (1-minute):** https://youtube.com/shorts/6Gl1k9jtep4
 
-**Live demo:** On stage — `npx gfmd create` → glasses HUD in under 90 seconds. See [`DEMO-RUNBOOK.md`](DEMO-RUNBOOK.md) and [`docs/video-script.md`](docs/video-script.md). Two live-demo examples reachable via QR.
+**Live demo:** On stage — `npx gdk create` → glasses HUD in under 90 seconds. See [`DEMO-RUNBOOK.md`](DEMO-RUNBOOK.md) and [`docs/video-script.md`](docs/video-script.md). Two live-demo examples reachable via QR.
 
 ## What it is
 
-Gemini Flash Meta Displays is the framework that didn't exist for Meta Ray-Ban Display. Smart-glasses Web Apps are HTML/CSS/JS in a 600×600 viewport, navigated by D-pad/Neural Band keys, with **no camera or microphone API on the page itself**. Every team trying to build something good on them currently re-implements the same stack: a bridge server holding the Gemini key, an SSE pattern to push results to the glasses, a deep-link install flow, Cloudflare-tunneled public HTTPS, wrappers for every Gemini surface, and an operator-gated camera-side capture path.
+Gemini Display Kit is the framework that didn't exist for Meta Ray-Ban Display. Smart-glasses Web Apps are HTML/CSS/JS in a 600×600 viewport, navigated by D-pad/Neural Band keys, with **no camera or microphone API on the page itself**. Every team trying to build something good on them currently re-implements the same stack: a bridge server holding the Gemini key, an SSE pattern to push results to the glasses, a deep-link install flow, Cloudflare-tunneled public HTTPS, wrappers for every Gemini surface, and an operator-gated camera-side capture path.
 
-Gemini Flash Meta Displays packages that stack as a CLI + SDK. Three commands take you from `npx gfmd create` to scanning a QR with your phone and seeing your game on the lenses. The framework ships wrappers for every Gemini surface a glasses game needs — Flash multimodal, managed agents (with thread-keyed conversations), Nano Banana image gen, Lyria 3 music gen, Veo image-to-video for cinematic moments, TTS for in-game audio, structured-output for game-design tasks.
+Gemini Display Kit packages that stack as a CLI + SDK. Three commands take you from `npx gdk create` to scanning a QR with your phone and seeing your game on the lenses. The framework ships wrappers for every Gemini surface a glasses game needs — Flash multimodal, managed agents (with thread-keyed conversations), Nano Banana image gen, Lyria 3 music gen, Veo image-to-video for cinematic moments, TTS for in-game audio, structured-output for game-design tasks.
 
 Working games ship in `examples/` as proof of the framework:
 
@@ -26,7 +26,7 @@ Working games ship in `examples/` as proof of the framework:
 
 ## Why managed agents (not just API calls)
 
-Gemini Flash Meta Displays treats managed agents as the **creative spine** of every game, not a chat box. Four distinct use patterns, each implemented as a one-line `runManagedAgent({...})` call with a `threadKey` for per-surface conversation state. Captured `interaction.steps` traces (including `code_execution_call` / `code_execution_result`) are rendered in the UI as evidence.
+Gemini Display Kit treats managed agents as the **creative spine** of every game, not a chat box. Four distinct use patterns, each implemented as a one-line `runManagedAgent({...})` call with a `threadKey` for per-surface conversation state. Captured `interaction.steps` traces (including `code_execution_call` / `code_execution_result`) are rendered in the UI as evidence.
 
 | Pattern | Where it lives | Where to look |
 |---|---|---|
@@ -52,7 +52,7 @@ See [`NOTICE`](NOTICE) for full attributions and [`docs/built-during-hackathon.m
 
 ## Anti-pattern guard
 
-We checked Gemini Flash Meta Displays against the hackathon's banned-project list — see [`docs/anti-pattern-defense.md`](docs/anti-pattern-defense.md) for the full defense:
+We checked Gemini Display Kit against the hackathon's banned-project list — see [`docs/anti-pattern-defense.md`](docs/anti-pattern-defense.md) for the full defense:
 
 | Banned pattern | Position |
 |---|---|

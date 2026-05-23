@@ -37,7 +37,7 @@ Authored during the event:
 - `src/display/events.js` — SSE client with auto-reconnect + inline-audio playback
 
 ### CLI
-- `bin/gfmd.mjs` — entry point
+- `bin/gdk.mjs` — entry point
 - `src/cli.mjs` — dispatch + flag parser
 - `src/index.mjs` — public SDK surface (`defineGame`, re-exports)
 - `src/commands/create.mjs` — scaffold a project from a template
@@ -66,7 +66,7 @@ Authored during the event:
 These three games were prototyped earlier in the day in separate workspaces
 (`<the GoogleIO workspace on the authors machine>` and
 `<the IOHackathon workspace on the authors machine>`),
-then refactored later in the day to depend on `gfmd`. All authored on
+then refactored later in the day to depend on `gdk`. All authored on
 2026-05-23.
 
 - `examples/omni-odyssey/` — Nano Banana adventure, refactored to depend on the framework. The original 340-line `orchestrator.mjs` (from `GoogleIO/apps/omni-quest/`) shrinks to a 110-line `omni.config.mjs` because the framework now owns the bridge/SSE/tunnel/QR. Display HTML ported as-is.

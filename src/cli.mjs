@@ -20,7 +20,7 @@ const COMMANDS = {
   agent: "src/commands/agent.mjs",
 };
 
-const USAGE = `gfmd <command> [options]
+const USAGE = `gdk <command> [options]
 
 Commands:
   create <name>       scaffold a new game project from a template
@@ -53,11 +53,11 @@ Global options:
   OMNI_DEBUG=1        print stack traces
 
 Examples:
-  npx gfmd create my-game --template adventure
-  gfmd dev
-  gfmd deploy --url https://my-tunnel.trycloudflare.com --name MyGame
+  npx gdk create my-game --template adventure
+  gdk dev
+  gdk deploy --url https://my-tunnel.trycloudflare.com --name MyGame
 
-Docs: https://github.com/sidkandan/GeminiFlashMetaDisplays#readme
+Docs: https://github.com/sidkandan/GeminiDisplayKit#readme
 `;
 
 const VERSION = "0.1.0";

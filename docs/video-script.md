@@ -7,16 +7,16 @@
 
 | Time | Duration | Visual | Audio (voiceover) |
 |---|---|---|---|
-| 0:00 | 4s | Title card: "Gemini Flash Meta Displays" + tagline | "Smart-glasses just opened up." |
-| 0:04 | 6s | Terminal: `npx gfmd create demo-game --template adventure` typed, output streams | "Three commands to ship a glasses game." |
-| 0:10 | 4s | Terminal: `cd demo-game && npx gfmd dev` typed, bridge URL + tunnel URL + giant QR appear | "Bridge. Tunnel. Install QR." |
+| 0:00 | 4s | Title card: "Gemini Display Kit" + tagline | "Smart-glasses just opened up." |
+| 0:04 | 6s | Terminal: `npx gdk create demo-game --template adventure` typed, output streams | "Three commands to ship a glasses game." |
+| 0:10 | 4s | Terminal: `cd demo-game && npx gdk dev` typed, bridge URL + tunnel URL + giant QR appear | "Bridge. Tunnel. Install QR." |
 | 0:14 | 6s | Phone (Pixel) scans the QR; Meta AI "Add Web App" sheet pops up; Add tapped | "Scan with your phone." |
 | 0:20 | 8s | Close-up on the glasses HUD: rune-portal scene + three glowing doors. Pinch gesture on the Neural Band. "the agents are painting your world…" loading state. New scene appears. | "The world is painted by Nano Banana, on demand." |
 | 0:28 | 8s | Cut to editor: scroll through `examples/prompt-arena/data/traces/m_emberton.json` showing `code_execution_call` and `code_execution_result` steps | "A managed agent writing Python and running it in a remote sandbox to tune a battle strategy." |
 | 0:36 | 6s | Cut to PROMPT ARENA bracket UI: monsters animate, HP bars deplete, SUPER EFFECTIVE flashes, sportscaster TTS voice | "Each monster's strategy was self-trained by its own agent." |
 | 0:42 | 6s | Cut to PulseBlade HUD: notes flowing, lane hits, score climbing | "Different game, same framework. Lyria scores the track." |
 | 0:48 | 6s | Editor: `templates/adventure/omni.config.mjs` on screen, ~90 lines, key sections highlighted | "Any game on this platform — in ~100 lines." |
-| 0:54 | 6s | Title card: "github.com/sidkandan/GeminiFlashMetaDisplays · built 2026-05-23" | "Built today. Open source. Apply at any game on Display." |
+| 0:54 | 6s | Title card: "github.com/sidkandan/GeminiDisplayKit · built 2026-05-23" | "Built today. Open source. Apply at any game on Display." |
 
 ## Production notes
 

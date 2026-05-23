@@ -103,7 +103,7 @@ async function handleRequest(req, res, ctx) {
   if (method === "GET" && url.pathname === "/api/health") {
     return sendJson(res, 200, {
       ok: true,
-      framework: "gemini-flash-meta-displays",
+      framework: "gemini-display-kit",
       version: "0.1.0",
       geminiConfigured: Boolean(process.env.GEMINI_API_KEY),
       geminiModel: process.env.GEMINI_MODEL || "gemini-flash-latest",
@@ -126,7 +126,7 @@ async function handleRequest(req, res, ctx) {
     });
     ctx.clients.add(res);
     // Send the last known state so refreshes don't see a blank HUD.
-    const initial = ctx.lastEvent() || { type: "status", state: "ready", message: "Gemini Flash Meta Displays bridge online.", ts: Date.now() };
+    const initial = ctx.lastEvent() || { type: "status", state: "ready", message: "Gemini Display Kit bridge online.", ts: Date.now() };
     res.write(`data: ${JSON.stringify(initial)}\n\n`);
     req.on("close", () => ctx.clients.delete(res));
     return;

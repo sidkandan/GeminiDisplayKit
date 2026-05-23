@@ -2,7 +2,7 @@
 
 > An original wearable rhythm game. Gemini Flash designs the level, Lyria 3 generates the backing track, a managed-agent director publishes a judge-visible balancing note.
 
-A self-contained game built with [Gemini Flash Meta Displays](../../README.md).
+A self-contained game built with [Gemini Display Kit](../../README.md).
 This is the **second demo** in the hackathon submission, complementing
 [OMNI-ODYSSEY](../omni-odyssey/).
 
@@ -36,7 +36,7 @@ Both run on the same bridge / SSE / display SDK / tunnel + QR. **That's the fram
 cd examples/pulseblade
 cp ../../.env.example .env       # then set GEMINI_API_KEY
 npm install
-gfmd dev
+gdk dev
 ```
 
 Then POST to `/api/pulseblade/start` (or use the in-HUD Start button) to compose a new level + track.

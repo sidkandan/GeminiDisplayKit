@@ -73,7 +73,7 @@ Sid Kandan (solo) — siddharth.kandan@gmail.com
 > - Gemini-to-MetaDisplay bridge (`src/bridge/server.mjs`) — HTTP + SSE + static + per-game route mounting + Buffer-aware response writer
 > - Reusable wrappers for every Gemini surface — `runManagedAgent` (with `threadKey` to fix cross-surface contamination), `generateScene` (Nano Banana), `generateText` (Flash narration), `runLyriaClip`, `generateTTS`, `generateCinematic` (Veo), `requestStructured` (Flash JSON-mode)
 > - Display SDK — 600×600 reset CSS, D-pad focus model with MutationObserver, SSE client with auto-reconnect + inline-audio playback
-> - CLI — `gfmd create | dev | deploy | doctor | capture | agent run`
+> - CLI — `gdk create | dev | deploy | doctor | capture | agent run`
 > - Templates — `adventure` (full working)
 > - Three example games — OMNI-ODYSSEY (narrative engine + audience-conjure), PulseBlade (rhythm game with pose tracking + layered audio), PROMPT ARENA (8-monster bracket with captured code-execution traces)
 > - Operational scripts — pre-publish scrub, demo-day preflight, smoke test, Odyssey prewarm

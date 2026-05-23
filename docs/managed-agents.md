@@ -1,6 +1,6 @@
-# Managed agents in Gemini Flash Meta Displays
+# Managed agents in Gemini Display Kit
 
-Managed agents are the headline new capability in the Gemini API. Gemini Flash Meta Displays
+Managed agents are the headline new capability in the Gemini API. Gemini Display Kit
 treats them as the **creative spine** of every game, not a chatbox. This
 doc catalogs the four patterns we ship — each is one `runManagedAgent` call
 with slightly different inputs.
@@ -17,7 +17,7 @@ For the underlying Gemini docs, see
 **Trace surface:** the captured `interaction.steps` becomes a Director's-View console.
 
 ```js
-import { runManagedAgent } from "gemini-flash-meta-displays/tools";
+import { runManagedAgent } from "gemini-display-kit/tools";
 
 const director = await runManagedAgent({
   prompt: `Design a 5-step scavenger arc for "Cerebral Valley venue". ` +

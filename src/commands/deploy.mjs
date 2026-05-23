@@ -1,5 +1,5 @@
 /**
- * `gfmd deploy --url <https-url> --name <AppName>` —
+ * `gdk deploy --url <https-url> --name <AppName>` —
  *  mint a deep-link + QR for a public HTTPS URL.
  *
  * Use this when you've hosted your bridge somewhere stable (Cloud Run,

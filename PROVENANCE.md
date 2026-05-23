@@ -5,7 +5,7 @@
 > **immediate disqualification**. This document is the file-by-file ledger
 > answering that question for every artifact in this repo.
 
-**Project:** Gemini Flash Meta Displays (`gfmd`)
+**Project:** Gemini Display Kit (`gdk`)
 **Event:** Cerebral Valley / Google I/O Hackathon
 **Event date:** 2026-05-23
 **Team:** Sid Kandan (solo) + an AI build-swarm (see [`CONTRIBUTORS.md`](CONTRIBUTORS.md))
@@ -30,7 +30,7 @@ during the hackathon. None of these files existed before the event started.
 
 | Path | Lines | What it is |
 |---|---:|---|
-| `bin/gfmd.mjs` | 22 | CLI entry point |
+| `bin/gdk.mjs` | 22 | CLI entry point |
 | `src/cli.mjs` | 105 | Command dispatch + flag parser |
 | `src/index.mjs` | 41 | Public SDK surface (`defineGame`, tools re-exports) |
 | `src/bridge/server.mjs` | 280 | HTTP + SSE + static + per-game route mounting + Buffer-aware response writer |
@@ -73,7 +73,7 @@ during the hackathon. None of these files existed before the event started.
 | `docs/getting-started.md` | First-game-in-5-minutes |
 | `docs/architecture.md` | Bridge ↔ display ↔ Gemini design rationale |
 | `docs/managed-agents.md` | The four agent patterns with code samples |
-| `docs/runbook-mbp.md` | Operational runbook for hosting any gfmd game from a MacBook Pro |
+| `docs/runbook-mbp.md` | Operational runbook for hosting any gdk game from a MacBook Pro |
 | `docs/built-during-hackathon.md` | Provenance ledger (this file's companion) |
 | `docs/anti-pattern-defense.md` | Why we are NOT a banned project |
 | `docs/judges-guide.md` | Recommended file-viewing order |
@@ -93,8 +93,8 @@ during the hackathon. None of these files existed before the event started.
 
 | Path | Origin | Authored | Framework dependency |
 |---|---|---|---|
-| `examples/omni-odyssey/` | A coherent illustrated adventure narrated by **Gemini Flash** (`generateText`), painted live by **Nano Banana** (`generateScene`), with **audience-conjured monsters** woven in as encounters via `GET/POST /conjure` + a worker queue. Refactored from a 490-line standalone `orchestrator.mjs` prototyped earlier today; the new version is ~250 lines because the framework now owns the bridge/SSE/tunnel/QR. Includes `display/index.html`, `display/conjure.html`, `display/director.html`, and a judge-facing `TOOLS_USED.md`. | Today (2026-05-23) | Depends on `gfmd` via local `file:../..` |
-| `examples/pulseblade/` | Refactored from a 500-line standalone `pulseblade-server.mjs` prototyped earlier today. The level designer library (`level.mjs`) and display files ported as-is; the bridge wrapper shrinks to ~100 lines because the framework owns the duplicated bits. | Today (2026-05-23) | Depends on `gfmd` via local `file:../..` |
+| `examples/omni-odyssey/` | A coherent illustrated adventure narrated by **Gemini Flash** (`generateText`), painted live by **Nano Banana** (`generateScene`), with **audience-conjured monsters** woven in as encounters via `GET/POST /conjure` + a worker queue. Refactored from a 490-line standalone `orchestrator.mjs` prototyped earlier today; the new version is ~250 lines because the framework now owns the bridge/SSE/tunnel/QR. Includes `display/index.html`, `display/conjure.html`, `display/director.html`, and a judge-facing `TOOLS_USED.md`. | Today (2026-05-23) | Depends on `gdk` via local `file:../..` |
+| `examples/pulseblade/` | Refactored from a 500-line standalone `pulseblade-server.mjs` prototyped earlier today. The level designer library (`level.mjs`) and display files ported as-is; the bridge wrapper shrinks to ~100 lines because the framework owns the duplicated bits. | Today (2026-05-23) | Depends on `gdk` via local `file:../..` |
 | `examples/prompt-arena/` | Standalone Python project prototyped earlier today as a parallel hackathon attempt. Dropped in verbatim as a **bonus example** for the captured `code_execution_call` traces. **Does not currently depend on the framework** — runs on its own Flask server. See [`examples/prompt-arena/BONUS-NOT-DEMOED.md`](examples/prompt-arena/BONUS-NOT-DEMOED.md). | Today (2026-05-23) | Standalone (Python; Phase 3 will wrap it) |
 
 ## What's in `examples/prompt-arena/` specifically
@@ -129,9 +129,9 @@ These are dependencies and references. They are **never claimed as our work**.
 
 | Binary | License | Use |
 |---|---|---|
-| `cloudflared` | Apache-2.0 | Dev tunnel (`gfmd dev`) |
+| `cloudflared` | Apache-2.0 | Dev tunnel (`gdk dev`) |
 | `node` | MIT | Runtime |
-| `adb` (Android SDK Platform Tools) | Apache-2.0 | Optional, used by `gfmd doctor` |
+| `adb` (Android SDK Platform Tools) | Apache-2.0 | Optional, used by `gdk doctor` |
 
 ### Python dependencies (`examples/prompt-arena/`)
 
