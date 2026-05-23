@@ -1,0 +1,7 @@
+.env
+.env.local
+node_modules/
+artifacts/
+assets/intro.mp4
+assets/opening-scene.jpg
+.DS_Store

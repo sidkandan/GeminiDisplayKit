@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Monster | Prompt Arena</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/index.css">
+</head>
+<body class="submit-body">
+    <main class="submit-card">
+        <header>
+            <div>
+                <p class="eyebrow">Audience hatchery</p>
+                <h1>Build a monster</h1>
+            </div>
+            <a class="link-button" href="/">Arena</a>
+        </header>
+
+        <form id="submitForm" class="submit-form">
+            <div class="form-grid">
+                <div class="field">
+                    <label for="name">Name</label>
+                    <input id="name" name="name" maxlength="40" required>
+                </div>
+                <div class="field">
+                    <label for="element">Element</label>
+                    <select id="element" name="element" required></select>
+                </div>
+                <div class="field">
+                    <label for="catchphrase">Catchphrase</label>
+                    <input id="catchphrase" name="catchphrase" maxlength="80" required>
+                </div>
+                <div class="field">
+                    <label for="coach_name">Your name</label>
+                    <input id="coach_name" name="coach_name" maxlength="50" required>
+                </div>
+            </div>
+
+            <section>
+                <div class="moves-title">Pick exactly 4 moves <span id="moveCounter">0/4</span></div>
+                <div id="movePicker" class="move-picker"></div>
+            </section>
+
+            <div class="field">
+                <label for="coaching">Coaching</label>
+                <textarea id="coaching" name="coaching" required></textarea>
+            </div>
+
+            <div class="submit-actions">
+                <button id="submitButton" type="submit">Submit monster</button>
+                <span id="submitStatus"></span>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        const selectedMoves = new Set();
+        const statusEl = document.getElementById("submitStatus");
+        const moveCounter = document.getElementById("moveCounter");
+
+        async function loadFormData() {
+            const response = await fetch("/api/gamedata");
+            const gamedata = await response.json();
+            document.getElementById("element").innerHTML = gamedata.elements
+                .map((element) => `<option value="${element}">${element}</option>`)
+                .join("");
+            document.getElementById("movePicker").innerHTML = gamedata.moves
+                .map((move) => `
+                    <label class="move-choice">
+                        <input type="checkbox" value="${move.id}">
+                        <strong>${move.name}</strong>
+                        <small>${move.element} | ${move.kind}</small>
+                    </label>
+                `)
+                .join("");
+            document.querySelectorAll(".move-choice input").forEach((input) => {
+                input.addEventListener("change", () => {
+                    if (input.checked && selectedMoves.size >= 4) {
+                        input.checked = false;
+                        return;
+                    }
+                    if (input.checked) {
+                        selectedMoves.add(input.value);
+                    } else {
+                        selectedMoves.delete(input.value);
+                    }
+                    moveCounter.textContent = `${selectedMoves.size}/4`;
+                });
+            });
+        }
+
+        document.getElementById("submitForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            if (selectedMoves.size !== 4) {
+                statusEl.textContent = "Pick exactly 4 moves.";
+                return;
+            }
+            const form = new FormData(event.currentTarget);
+            const payload = {
+                name: form.get("name"),
+                element: form.get("element"),
+                moves: Array.from(selectedMoves),
+                coaching: form.get("coaching"),
+                catchphrase: form.get("catchphrase"),
+                coach_name: form.get("coach_name"),
+            };
+            statusEl.textContent = "Submitting...";
+            const response = await fetch("/api/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+            const result = await response.json();
+            if (!response.ok) {
+                statusEl.textContent = (result.errors || [result.error || "Submit failed"]).join("; ");
+                return;
+            }
+            statusEl.textContent = `${result.monster.name} saved as ${result.monster.id}.`;
+            event.currentTarget.reset();
+            selectedMoves.clear();
+            document.querySelectorAll(".move-choice input").forEach((input) => {
+                input.checked = false;
+            });
+            moveCounter.textContent = "0/4";
+        });
+
+        loadFormData().catch((error) => {
+            statusEl.textContent = error.message;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{
+  "name": "gemini-flash-meta-displays",
+  "version": "0.1.0",
+  "description": "Gemini-powered SDK + CLI for building games on Meta Ray-Ban Display. Built at the Google I/O Hackathon 2026-05-23.",
+  "type": "module",
+  "bin": {
+    "gfmd": "bin/gfmd.mjs",
+    "gemini-flash-meta-displays": "bin/gfmd.mjs"
+  },
+  "exports": {
+    ".": "./src/index.mjs",
+    "./tools": "./src/tools/index.mjs",
+    "./bridge": "./src/bridge/server.mjs",
+    "./display/*": "./src/display/*"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "templates/",
+    "README.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "scripts": {
+    "dev": "node bin/gfmd.mjs dev",
+    "test": "node scripts/smoke.mjs",
+    "scrub": "bash scripts/scrub-for-publish.sh",
+    "preflight": "bash scripts/demo-day.sh",
+    "prewarm": "node scripts/prewarm-odyssey.mjs"
+  },
+  "keywords": [
+    "gemini",
+    "managed-agents",
+    "meta-ray-ban-display",
+    "smart-glasses",
+    "hackathon",
+    "nano-banana",
+    "veo",
+    "lyria",
+    "antigravity"
+  ],
+  "author": "Sid Kandan <siddharth.kandan@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sidkandan/GeminiFlashMetaDisplays"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@google/genai": "^2.6.0",
+    "qrcode": "^1.5.4"
+  }
+}

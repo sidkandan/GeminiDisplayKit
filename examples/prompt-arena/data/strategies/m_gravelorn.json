@@ -1,0 +1,28 @@
+{
+  "id": "m_gravelorn",
+  "name": "Gravelorn",
+  "element": "terra",
+  "opening_move": "landslide",
+  "move_weights": {
+    "landslide": 1.0,
+    "pebble": 1.0,
+    "bulwark": 0.6,
+    "mend": 0.6
+  },
+  "switch_to_defense_below": 0.3,
+  "defense_move": "bulwark",
+  "aggression": 0.7,
+  "prefer_super_effective": true,
+  "taunts": {
+    "open": "Immovable.",
+    "super_effective": "Direct hit!",
+    "low_hp": "Not done yet!",
+    "win": "GG."
+  },
+  "self_test": {
+    "trials": 0,
+    "wins": 0
+  },
+  "reasoning": "Default heuristic strategy (no managed-agent training yet).",
+  "source": "default"
+}

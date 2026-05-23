@@ -1,0 +1,400 @@
+{
+  "created": "2026-05-23T22:10:14.337529+00:00",
+  "bracket": [
+    [
+      "m_aqualisk",
+      "m_cindermaw"
+    ],
+    [
+      "m_emberton",
+      "m_thornback"
+    ],
+    [
+      "m_voltaic",
+      "m_gravelorn"
+    ],
+    [
+      "m_zephyrus",
+      "m_quartzion"
+    ]
+  ],
+  "battles": [
+    {
+      "battle_id": "b_quarterfinal_1",
+      "round": "Quarterfinal",
+      "seed": 10001033279451338738,
+      "a": {
+        "id": "m_aqualisk",
+        "name": "Aqualisk",
+        "element": "aqua"
+      },
+      "b": {
+        "id": "m_cindermaw",
+        "name": "Cindermaw",
+        "element": "pyro"
+      },
+      "turns": [
+        {
+          "n": 1,
+          "actor": "a",
+          "move": "tidal_crush",
+          "move_name": "Tidal Crush",
+          "element": "aqua",
+          "target": "b",
+          "raw": 80,
+          "type_mult": 0.5,
+          "damage": 36,
+          "effectiveness": "resisted",
+          "a_hp": 100,
+          "b_hp": 64,
+          "taunt": "Ride the tide!",
+          "note": ""
+        },
+        {
+          "n": 1,
+          "actor": "b",
+          "move": "pyroclasm",
+          "move_name": "Pyroclasm",
+          "element": "pyro",
+          "target": "a",
+          "raw": 80,
+          "type_mult": 2.0,
+          "damage": 148,
+          "effectiveness": "super",
+          "a_hp": 0,
+          "b_hp": 64,
+          "taunt": "Too hot to handle!",
+          "note": ""
+        }
+      ],
+      "winner": "b",
+      "mvp_move": "pyroclasm"
+    },
+    {
+      "battle_id": "b_quarterfinal_2",
+      "round": "Quarterfinal",
+      "seed": 12236944127833486837,
+      "a": {
+        "id": "m_emberton",
+        "name": "Emberton",
+        "element": "pyro"
+      },
+      "b": {
+        "id": "m_thornback",
+        "name": "Thornback",
+        "element": "flora"
+      },
+      "turns": [
+        {
+          "n": 1,
+          "actor": "a",
+          "move": "pyroclasm",
+          "move_name": "Pyroclasm",
+          "element": "pyro",
+          "target": "b",
+          "raw": 80,
+          "type_mult": 2.0,
+          "damage": 148,
+          "effectiveness": "super",
+          "a_hp": 100,
+          "b_hp": 0,
+          "taunt": "Patience beats power.",
+          "note": ""
+        }
+      ],
+      "winner": "a",
+      "mvp_move": "pyroclasm"
+    },
+    {
+      "battle_id": "b_quarterfinal_3",
+      "round": "Quarterfinal",
+      "seed": 12776334766297365602,
+      "a": {
+        "id": "m_voltaic",
+        "name": "Voltaic",
+        "element": "volt"
+      },
+      "b": {
+        "id": "m_gravelorn",
+        "name": "Gravelorn",
+        "element": "terra"
+      },
+      "turns": [
+        {
+          "n": 1,
+          "actor": "a",
+          "move": "thunderclap",
+          "move_name": "Thunderclap",
+          "element": "volt",
+          "target": "b",
+          "raw": 80,
+          "type_mult": 2.0,
+          "damage": 149,
+          "effectiveness": "super",
+          "a_hp": 100,
+          "b_hp": 0,
+          "taunt": "GG.",
+          "note": ""
+        }
+      ],
+      "winner": "a",
+      "mvp_move": "thunderclap"
+    },
+    {
+      "battle_id": "b_quarterfinal_4",
+      "round": "Quarterfinal",
+      "seed": 14055632033528679254,
+      "a": {
+        "id": "m_zephyrus",
+        "name": "Zephyrus",
+        "element": "gale"
+      },
+      "b": {
+        "id": "m_quartzion",
+        "name": "Quartzion",
+        "element": "terra"
+      },
+      "turns": [
+        {
+          "n": 1,
+          "actor": "b",
+          "move": "landslide",
+          "move_name": "Landslide",
+          "element": "terra",
+          "target": "a",
+          "raw": 80,
+          "type_mult": 0.5,
+          "damage": 39,
+          "effectiveness": "resisted",
+          "a_hp": 61,
+          "b_hp": 100,
+          "taunt": "Shatterpoint!",
+          "note": ""
+        },
+        {
+          "n": 1,
+          "actor": "a",
+          "move": "cyclone",
+          "move_name": "Cyclone",
+          "element": "gale",
+          "target": "b",
+          "raw": 80,
+          "type_mult": 2.0,
+          "damage": 144,
+          "effectiveness": "super",
+          "a_hp": 61,
+          "b_hp": 0,
+          "taunt": "GG.",
+          "note": ""
+        }
+      ],
+      "winner": "a",
+      "mvp_move": "cyclone"
+    },
+    {
+      "battle_id": "b_semifinal_1",
+      "round": "Semifinal",
+      "seed": 791329812742884800,
+      "a": {
+        "id": "m_cindermaw",
+        "name": "Cindermaw",
+        "element": "pyro"
+      },
+      "b": {
+        "id": "m_emberton",
+        "name": "Emberton",
+        "element": "pyro"
+      },
+      "turns": [
+        {
+          "n": 1,
+          "actor": "a",
+          "move": "pyroclasm",
+          "move_name": "Pyroclasm",
+          "element": "pyro",
+          "target": "b",
+          "raw": 80,
+          "type_mult": 1.0,
+          "damage": 74,
+          "effectiveness": "normal",
+          "a_hp": 100,
+          "b_hp": 26,
+          "taunt": "Burn it all down!",
+          "note": ""
+        },
+        {
+          "n": 1,
+          "actor": "b",
+          "move": "pyroclasm",
+          "move_name": "Pyroclasm",
+          "element": "pyro",
+          "target": "a",
+          "raw": 80,
+          "type_mult": 1.0,
+          "damage": 79,
+          "effectiveness": "normal",
+          "a_hp": 21,
+          "b_hp": 26,
+          "taunt": "Slow and steady.",
+          "note": ""
+        },
+        {
+          "n": 2,
+          "actor": "a",
+          "move": "gambit",
+          "move_name": "Gambit",
+          "element": "neutral",
+          "target": "b",
+          "raw": 60,
+          "type_mult": 1.0,
+          "damage": 53,
+          "effectiveness": "normal",
+          "a_hp": 16,
+          "b_hp": 0,
+          "taunt": "Too hot to handle!",
+          "note": "recoil 5"
+        }
+      ],
+      "winner": "a",
+      "mvp_move": "pyroclasm"
+    },
+    {
+      "battle_id": "b_semifinal_2",
+      "round": "Semifinal",
+      "seed": 1976499268912497249,
+      "a": {
+        "id": "m_voltaic",
+        "name": "Voltaic",
+        "element": "volt"
+      },
+      "b": {
+        "id": "m_zephyrus",
+        "name": "Zephyrus",
+        "element": "gale"
+      },
+      "turns": [
+        {
+          "n": 1,
+          "actor": "b",
+          "move": "cyclone",
+          "move_name": "Cyclone",
+          "element": "gale",
+          "target": "a",
+          "raw": 80,
+          "type_mult": 2.0,
+          "damage": 149,
+          "effectiveness": "super",
+          "a_hp": 0,
+          "b_hp": 100,
+          "taunt": "GG.",
+          "note": ""
+        }
+      ],
+      "winner": "b",
+      "mvp_move": "cyclone"
+    },
+    {
+      "battle_id": "b_final_1",
+      "round": "Final",
+      "seed": 16600280593552417781,
+      "a": {
+        "id": "m_cindermaw",
+        "name": "Cindermaw",
+        "element": "pyro"
+      },
+      "b": {
+        "id": "m_zephyrus",
+        "name": "Zephyrus",
+        "element": "gale"
+      },
+      "turns": [
+        {
+          "n": 1,
+          "actor": "a",
+          "move": "pyroclasm",
+          "move_name": "Pyroclasm",
+          "element": "pyro",
+          "target": "b",
+          "raw": 80,
+          "type_mult": 1.0,
+          "damage": 78,
+          "effectiveness": "normal",
+          "a_hp": 100,
+          "b_hp": 22,
+          "taunt": "Burn it all down!",
+          "note": ""
+        },
+        {
+          "n": 1,
+          "actor": "b",
+          "move": "cyclone",
+          "move_name": "Cyclone",
+          "element": "gale",
+          "target": "a",
+          "raw": 80,
+          "type_mult": 1.0,
+          "damage": 79,
+          "effectiveness": "normal",
+          "a_hp": 21,
+          "b_hp": 22,
+          "taunt": "Not done yet!",
+          "note": ""
+        },
+        {
+          "n": 2,
+          "actor": "b",
+          "move": "mend",
+          "move_name": "Mend",
+          "element": "neutral",
+          "target": "b",
+          "raw": 0,
+          "type_mult": 1.0,
+          "damage": 30,
+          "effectiveness": "heal",
+          "a_hp": 21,
+          "b_hp": 52,
+          "taunt": "",
+          "note": "healed 30"
+        },
+        {
+          "n": 2,
+          "actor": "a",
+          "move": "gambit",
+          "move_name": "Gambit",
+          "element": "neutral",
+          "target": "b",
+          "raw": 60,
+          "type_mult": 1.0,
+          "damage": 60,
+          "effectiveness": "normal",
+          "a_hp": 15,
+          "b_hp": 0,
+          "taunt": "Too hot to handle!",
+          "note": "recoil 6"
+        }
+      ],
+      "winner": "a",
+      "mvp_move": "pyroclasm"
+    }
+  ],
+  "rounds": {
+    "Quarterfinal": [
+      "b_quarterfinal_1",
+      "b_quarterfinal_2",
+      "b_quarterfinal_3",
+      "b_quarterfinal_4"
+    ],
+    "Semifinal": [
+      "b_semifinal_1",
+      "b_semifinal_2"
+    ],
+    "Final": [
+      "b_final_1"
+    ]
+  },
+  "champion": {
+    "id": "m_cindermaw",
+    "name": "Cindermaw",
+    "coach_name": "Team Ember"
+  }
+}

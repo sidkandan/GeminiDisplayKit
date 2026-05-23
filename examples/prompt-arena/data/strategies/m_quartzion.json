@@ -1,0 +1,28 @@
+{
+  "id": "m_quartzion",
+  "name": "Quartzion",
+  "element": "terra",
+  "opening_move": "landslide",
+  "move_weights": {
+    "landslide": 1.0,
+    "pebble": 1.0,
+    "focus": 0.6,
+    "gambit": 1.0
+  },
+  "switch_to_defense_below": 0.3,
+  "defense_move": null,
+  "aggression": 0.7,
+  "prefer_super_effective": true,
+  "taunts": {
+    "open": "Shatterpoint!",
+    "super_effective": "Direct hit!",
+    "low_hp": "Not done yet!",
+    "win": "GG."
+  },
+  "self_test": {
+    "trials": 0,
+    "wins": 0
+  },
+  "reasoning": "Default heuristic strategy (no managed-agent training yet).",
+  "source": "default"
+}

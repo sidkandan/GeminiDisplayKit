@@ -1,0 +1,28 @@
+{
+  "id": "m_thornback",
+  "name": "Thornback",
+  "element": "flora",
+  "opening_move": "bloom_burst",
+  "move_weights": {
+    "bloom_burst": 1.0,
+    "vine_lash": 1.0,
+    "mend": 0.6,
+    "bulwark": 0.6
+  },
+  "switch_to_defense_below": 0.3,
+  "defense_move": "mend",
+  "aggression": 0.7,
+  "prefer_super_effective": true,
+  "taunts": {
+    "open": "Roots run deep.",
+    "super_effective": "Direct hit!",
+    "low_hp": "Not done yet!",
+    "win": "GG."
+  },
+  "self_test": {
+    "trials": 0,
+    "wins": 0
+  },
+  "reasoning": "Default heuristic strategy (no managed-agent training yet).",
+  "source": "default"
+}

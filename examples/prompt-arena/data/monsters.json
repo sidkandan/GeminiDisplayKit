@@ -1,0 +1,52 @@
+{
+  "monsters": [
+    {
+      "id": "m_aqualisk", "name": "Aqualisk", "element": "aqua",
+      "moves": ["tidal_crush", "aqua_jet", "focus", "mend"],
+      "coaching": "Aggressive type-hunter. Open with your strongest super-effective move. Use Focus before Tidal Crush against a healthy opponent to guarantee a huge hit. Only use Mend if you drop below 35% HP, then go right back on offense. Never waste a turn.",
+      "catchphrase": "Ride the tide!", "coach_name": "Sid"
+    },
+    {
+      "id": "m_cindermaw", "name": "Cindermaw", "element": "pyro",
+      "moves": ["pyroclasm", "ember", "focus", "gambit"],
+      "coaching": "Pure glass cannon. Always attack, never defend. Lead with Pyroclasm. Use Focus then Pyroclasm to one-shot. Use Gambit when you have nothing better even though it hurts you. Win fast or die trying.",
+      "catchphrase": "Burn it all down!", "coach_name": "Team Ember"
+    },
+    {
+      "id": "m_emberton", "name": "Emberton", "element": "pyro",
+      "moves": ["ember", "pyroclasm", "bulwark", "mend"],
+      "coaching": "Defensive control. Use Bulwark when you predict a big hit and Mend to outlast. Chip with Ember and save Pyroclasm for the kill. Patience beats power.",
+      "catchphrase": "Slow and steady.", "coach_name": "Hearth"
+    },
+    {
+      "id": "m_thornback", "name": "Thornback", "element": "flora",
+      "moves": ["bloom_burst", "vine_lash", "mend", "bulwark"],
+      "coaching": "Stall and outlast. Heal with Mend, raise guard with Bulwark, and grind the opponent down with Vine Lash. Use Bloom Burst only when it is super effective or lethal.",
+      "catchphrase": "Roots run deep.", "coach_name": "Grove"
+    },
+    {
+      "id": "m_voltaic", "name": "Voltaic", "element": "volt",
+      "moves": ["thunderclap", "spark", "focus", "gambit"],
+      "coaching": "Fast and reckless. Hit the hardest first. Lead Thunderclap into anything weak to Volt. Use Focus to set up a finishing Thunderclap. Do not bother defending.",
+      "catchphrase": "Too slow!", "coach_name": "Sparks"
+    },
+    {
+      "id": "m_gravelorn", "name": "Gravelorn", "element": "terra",
+      "moves": ["landslide", "pebble", "bulwark", "mend"],
+      "coaching": "Counter-puncher tank. Bulwark early, Mend to stay healthy, and answer with Landslide when the opponent commits. Outlast and punish.",
+      "catchphrase": "Immovable.", "coach_name": "Bedrock"
+    },
+    {
+      "id": "m_zephyrus", "name": "Zephyrus", "element": "gale",
+      "moves": ["cyclone", "gust", "focus", "mend"],
+      "coaching": "Hit-and-run. Favor super-effective Gale moves. Use Focus plus Cyclone for spikes, Gust to chip safely, Mend to reset. Stay flexible and exploit type advantage every turn.",
+      "catchphrase": "Catch me.", "coach_name": "Drift"
+    },
+    {
+      "id": "m_quartzion", "name": "Quartzion", "element": "terra",
+      "moves": ["landslide", "pebble", "focus", "gambit"],
+      "coaching": "Aggressive earth-breaker. Maximize damage every turn. Focus into Landslide for huge hits. Use Gambit to close out even at a cost. Never stall.",
+      "catchphrase": "Shatterpoint!", "coach_name": "Geode"
+    }
+  ]
+}

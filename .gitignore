@@ -1,0 +1,57 @@
+# Secrets — NEVER commit
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Build outputs
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+dist/
+build/
+.next/
+.cache/
+
+# Local artifacts
+artifacts/
+*.log
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+ehthumbs.db
+
+# Tunnel + dev state
+.tunnel-url
+.cloudflared/
+
+# Per-session AI assistant state
+.claude/
+
+# OMNI-ODYSSEY pre-generated assets (regenerate via scripts/prewarm-odyssey.mjs)
+examples/omni-odyssey/assets/intro.mp4
+examples/omni-odyssey/assets/opening-scene.jpg
+
+# Large local-only demo footage (host on YouTube/Drive instead; link from SUBMISSION.md)
+*.mp4
+*.mov
+*.webm
+*.zip
+*.tar.gz
+# Override the ignore-all-mp4 rule for any future smaller in-repo videos:
+# (uncomment as needed)
+# !path/to/specific/video.mp4
+
+# NOTE: Prompt Arena's data/ and static/ folders are INTENTIONALLY committed.
+# They contain the captured managed-agent traces, sprites, audio, and
+# tournament data that are the headline evidence for the managed-agents prize.
+# Do NOT add an `examples/*/data/` pattern to this file.

@@ -1,0 +1,38 @@
+Gemini Flash Meta Displays
+Copyright 2026 Sid Kandan
+Licensed under the MIT License (see LICENSE).
+
+This project bundles or references the following third-party material. These
+components are NOT original to Gemini Flash Meta Displays; they are vendored or referenced for
+integration purposes only. Original copyrights and licenses remain in force.
+
+================================================================================
+Meta Wearables Webapp AI Toolkit
+  Source: https://github.com/meta-quest/meta-wearables-webapp
+  License: see vendor/meta-wearables-webapp/LICENSE (if vendored)
+  Use here: referenced as the canonical Meta Display Web App spec; the
+            display SDK in src/display/ implements the same 600x600, D-pad,
+            HTML/CSS/JS conventions described there. No code is copied.
+
+Meta Wearables Device Access Toolkit (DAT) — Android
+  Source: https://github.com/meta-quest/meta-wearables-dat-android
+  License: see vendor/meta-wearables-dat-android/LICENSE (if vendored)
+  Use here: referenced as the canonical native-side path for camera capture on
+            Pixel/Android. The `gfmd capture --source dat` command shells
+            out to operator-gated scripts; no Meta DAT code is included or
+            modified.
+
+@google/genai (Gemini SDK)
+  Source: https://www.npmjs.com/package/@google/genai
+  License: Apache-2.0
+  Use here: declared as a runtime npm dependency; not vendored.
+
+cloudflared
+  Source: https://github.com/cloudflare/cloudflared
+  License: Apache-2.0
+  Use here: invoked as an external process for the dev tunnel.
+
+================================================================================
+
+The PROMPT ARENA example monster designs, sprites, taunts, and battle moves are
+ORIGINAL CREATURES designed for this hackathon — no third-party IP is used.

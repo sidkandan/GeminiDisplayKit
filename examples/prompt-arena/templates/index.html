@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Arena</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/index.css">
+</head>
+<body>
+    <header class="arena-header">
+        <div>
+            <p class="eyebrow">Live single elimination</p>
+            <h1>Prompt Arena</h1>
+        </div>
+        <div class="champion-strip">
+            <span>Champion</span>
+            <strong id="championName">Loading</strong>
+            <small id="createdStamp"></small>
+        </div>
+        <div class="header-actions">
+            <a class="link-button" href="/submit">Audience submit</a>
+            <button id="playButton" type="button">Play bracket</button>
+            <button id="resetButton" type="button" class="secondary">Reset</button>
+            <label class="speed-control">
+                Speed
+                <select id="speedSelect">
+                    <option value="0.75">Stage</option>
+                    <option value="1" selected>Live</option>
+                    <option value="1.6">Fast</option>
+                </select>
+            </label>
+        </div>
+    </header>
+
+    <main class="arena-shell">
+        <aside class="bracket-panel" aria-label="Tournament bracket">
+            <div class="panel-title">
+                <span>Bracket</span>
+                <small id="battleCount">0 battles</small>
+            </div>
+            <div id="bracketPanel" class="bracket-columns"></div>
+        </aside>
+
+        <section class="stage-panel" aria-label="Battle stage">
+            <nav id="roundTabs" class="round-tabs"></nav>
+            <div id="stage" class="stage"></div>
+            <div id="ticker" class="ticker">Loading tournament data...</div>
+        </section>
+
+        <aside class="hatchery-panel" aria-label="Hatchery panel">
+            <div class="panel-title">
+                <span>Hatchery</span>
+                <small>agent proof</small>
+            </div>
+            <div id="hatcheryList" class="monster-list"></div>
+            <div class="hatchery-readout">
+                <h2 id="hatcheryName">Select a monster</h2>
+                <p id="hatcheryMeta" class="meta-line"></p>
+                <h3>Reasoning</h3>
+                <p id="reasoningText" class="readout-text">Strategy reasoning will appear here.</p>
+                <h3>Self test</h3>
+                <p id="selfTestText" class="readout-text">No self-test loaded.</p>
+                <h3>Taunts</h3>
+                <div id="tauntGrid" class="taunt-grid"></div>
+                <h3>Trace</h3>
+                <ol id="traceSteps" class="trace-steps"></ol>
+            </div>
+        </aside>
+    </main>
+
+    <template id="spriteTemplate">
+        <div class="sprite-wrap">
+            <div class="sprite-fallback"></div>
+            <img alt="">
+        </div>
+    </template>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

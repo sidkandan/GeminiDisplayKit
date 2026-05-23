@@ -1,0 +1,49 @@
+{
+  "_comment": "PROMPT ARENA canonical game data. SINGLE SOURCE OF TRUTH. Both the deterministic engine (Codex) and the managed-agent hatchery (Gemini) MUST read this. Original elements/creatures — no third-party IP.",
+  "elements": ["pyro", "flora", "aqua", "gale", "volt", "terra"],
+  "element_lore": {
+    "pyro": "scorching", "flora": "overgrowth", "aqua": "tidal",
+    "gale": "storm-wind", "volt": "lightning", "terra": "stone"
+  },
+  "type_chart": {
+    "pyro":  {"pyro": 1.0, "flora": 2.0, "aqua": 2.0, "gale": 1.0, "volt": 0.5, "terra": 0.5},
+    "flora": {"pyro": 0.5, "flora": 1.0, "aqua": 2.0, "gale": 2.0, "volt": 1.0, "terra": 0.5},
+    "aqua":  {"pyro": 0.5, "flora": 0.5, "aqua": 1.0, "gale": 2.0, "volt": 2.0, "terra": 1.0},
+    "gale":  {"pyro": 1.0, "flora": 0.5, "aqua": 0.5, "gale": 1.0, "volt": 2.0, "terra": 2.0},
+    "volt":  {"pyro": 2.0, "flora": 1.0, "aqua": 0.5, "gale": 0.5, "volt": 1.0, "terra": 2.0},
+    "terra": {"pyro": 2.0, "flora": 2.0, "aqua": 1.0, "gale": 0.5, "volt": 0.5, "terra": 1.0}
+  },
+  "moves": [
+    {"id": "ember",       "name": "Ember",       "element": "pyro",    "power": 45, "kind": "attack", "desc": "A quick scorching jab."},
+    {"id": "pyroclasm",   "name": "Pyroclasm",   "element": "pyro",    "power": 80, "kind": "attack", "desc": "A devastating eruption."},
+    {"id": "vine_lash",   "name": "Vine Lash",   "element": "flora",   "power": 45, "kind": "attack", "desc": "A whipping vine strike."},
+    {"id": "bloom_burst", "name": "Bloom Burst", "element": "flora",   "power": 80, "kind": "attack", "desc": "An explosive pollen blast."},
+    {"id": "aqua_jet",    "name": "Aqua Jet",    "element": "aqua",    "power": 45, "kind": "attack", "desc": "A fast water lance."},
+    {"id": "tidal_crush", "name": "Tidal Crush", "element": "aqua",    "power": 80, "kind": "attack", "desc": "A crushing wave."},
+    {"id": "gust",        "name": "Gust",        "element": "gale",    "power": 45, "kind": "attack", "desc": "A cutting wind."},
+    {"id": "cyclone",     "name": "Cyclone",     "element": "gale",    "power": 80, "kind": "attack", "desc": "A spiraling storm."},
+    {"id": "spark",       "name": "Spark",       "element": "volt",    "power": 45, "kind": "attack", "desc": "A jolting arc."},
+    {"id": "thunderclap", "name": "Thunderclap", "element": "volt",    "power": 80, "kind": "attack", "desc": "A deafening bolt."},
+    {"id": "pebble",      "name": "Pebble Shot", "element": "terra",   "power": 45, "kind": "attack", "desc": "A hurled stone."},
+    {"id": "landslide",   "name": "Landslide",   "element": "terra",   "power": 80, "kind": "attack", "desc": "A burying avalanche."},
+    {"id": "mend",        "name": "Mend",        "element": "neutral", "power": 0,  "kind": "heal",   "effect": "heal_30",     "desc": "Restore 30 HP (cap 100)."},
+    {"id": "bulwark",     "name": "Bulwark",     "element": "neutral", "power": 0,  "kind": "buff",   "effect": "defense_up",  "desc": "Halve the next incoming attack."},
+    {"id": "focus",       "name": "Focus",       "element": "neutral", "power": 0,  "kind": "buff",   "effect": "attack_up",   "desc": "Next attack deals x1.5."},
+    {"id": "gambit",      "name": "Gambit",      "element": "neutral", "power": 60, "kind": "attack", "effect": "recoil_10",   "desc": "Heavy neutral hit; recoil 10% of damage dealt."}
+  ],
+  "battle_rules": {
+    "hp_max": 100,
+    "jitter_min": 0.88,
+    "jitter_max": 1.0,
+    "turn_cap": 24,
+    "tiebreak": "higher_hp_percent_then_seeded_coin",
+    "damage_formula": "round(power * type_mult * jitter * focus_mult) then apply defender bulwark_mult(0.5 if active); type_mult = type_chart[move.element][defender.element], or 1.0 for neutral moves",
+    "effects": {
+      "heal_30": "heal +30, capped at hp_max, costs the turn",
+      "defense_up": "self gains a one-shot 0.5x multiplier vs the NEXT incoming attack",
+      "attack_up": "self gains a one-shot 1.5x multiplier on the NEXT attack move",
+      "recoil_10": "after dealing damage, self takes round(0.1 * damage_dealt)"
+    },
+    "turn_order": "if exactly one side uses a 0-power buff/heal it resolves first; otherwise order is decided by a per-turn seeded coin; RNG is seeded from battle_id for full reproducibility"
+  }
+}

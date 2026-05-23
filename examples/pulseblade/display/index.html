@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=600, height=600, initial-scale=1.0, user-scalable=no">
+  <title>PulseBlade HUD</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main id="app" aria-label="PulseBlade HUD">
+    <!-- Top HUD Bar: Score, Status Pill, Health -->
+    <header class="hud-header">
+      <div class="score-container">
+        <span class="hud-label">SCORE</span>
+        <span id="score-val" class="hud-val">000000</span>
+      </div>
+      <div class="status-container">
+        <div id="status-pill" class="status-pill">IDLE</div>
+      </div>
+      <div class="health-container">
+        <span class="hud-label">SHIELD HP</span>
+        <div class="health-bar-track">
+          <div id="health-bar-fill" class="health-bar-fill" style="width: 100%"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Game Area: Rhythm Tunnel Canvas -->
+    <section class="game-viewport">
+      <canvas id="game-canvas" width="600" height="600"></canvas>
+      
+      <!-- Next Cue Indicator -->
+      <div id="next-cue" class="next-cue-panel">
+        <span class="hud-label">NEXT CUE</span>
+        <span id="next-cue-text" class="next-cue-text">READY</span>
+      </div>
+      
+      <!-- Center Combo Display -->
+      <div id="combo-display" class="combo-display hidden">
+        <span id="combo-count" class="combo-count">0</span>
+        <span class="combo-label">COMBO</span>
+      </div>
+
+      <!-- Action / Feedback Toast -->
+      <div id="feedback-toast" class="feedback-toast"></div>
+
+      <!-- Start Overlay Screen -->
+      <div id="overlay-start" class="overlay-screen">
+        <div class="glass-panel">
+          <h1 class="game-title">PULSE<span class="accent">BLADE</span></h1>
+          <p class="subtitle">360 Rhythm Trainer</p>
+          <div class="controls-guide">
+            <div class="guide-row">
+              <span class="guide-key">ENTER</span>
+              <span class="guide-desc">START / OPTIONAL PARRY</span>
+            </div>
+            <div class="guide-row">
+              <span class="guide-key">ARROWS</span>
+              <span class="guide-desc">TURN + SLICE</span>
+            </div>
+            <div class="guide-row">
+              <span class="guide-key">ESC</span>
+              <span class="guide-desc">PAUSE PROTOCOL</span>
+            </div>
+          </div>
+          <button id="btn-start" class="btn-action focusable">INITIALIZE</button>
+        </div>
+      </div>
+
+      <!-- Pause Overlay Screen -->
+      <div id="overlay-pause" class="overlay-screen hidden">
+        <div class="glass-panel">
+          <h2 class="section-title blink">PROTOCOL PAUSED</h2>
+          <p class="subtitle">Press ESC to Resume</p>
+          <button id="btn-resume" class="btn-action focusable">RESUME</button>
+        </div>
+      </div>
+
+      <!-- Game Over / Victory Overlay Screen -->
+      <div id="overlay-results" class="overlay-screen hidden">
+        <div class="glass-panel">
+          <h2 id="results-title" class="section-title">MISSION COMPLETED</h2>
+          <div class="results-stats">
+            <div class="stat-row">
+              <span>SCORE</span>
+              <b id="res-score">0</b>
+            </div>
+            <div class="stat-row">
+              <span>MAX COMBO</span>
+              <b id="res-combo">0</b>
+            </div>
+            <div class="stat-row">
+              <span>ACCURACY</span>
+              <b id="res-accuracy">0%</b>
+            </div>
+            <div class="stat-row">
+              <span>GRADE</span>
+              <b id="res-grade" class="accent">S</b>
+            </div>
+          </div>
+          <button id="btn-restart" class="btn-action focusable">REINITIALIZE</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lower Meta HUD Bar -->
+    <footer class="hud-footer">
+      <div class="footer-item">
+        <span class="hud-label">SYNC STATE</span>
+        <b id="sync-state" class="offline">OFFLINE</b>
+      </div>
+      <div class="footer-item" style="text-align: right;">
+        <span class="hud-label">AUDIO PROTOCOL</span>
+        <b id="audio-state">WEBAUDIO fallback</b>
+      </div>
+    </footer>
+  </main>
+  
+  <script src="/app.js"></script>
+</body>
+</html>

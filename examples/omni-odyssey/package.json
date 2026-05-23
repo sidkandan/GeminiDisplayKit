@@ -1,0 +1,13 @@
+{
+  "name": "omni-odyssey",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "gfmd dev",
+    "deploy": "gfmd deploy --name OmniOdyssey"
+  },
+  "dependencies": {
+    "gemini-flash-meta-displays": "file:../.."
+  }
+}

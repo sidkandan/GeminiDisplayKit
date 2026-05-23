@@ -1,0 +1,125 @@
+/*
+ * gemini-flash-meta-displays/display/base.css — drop-in stylesheet for a Meta Display Web App.
+ *
+ *   <link rel="stylesheet" href="/gemini-flash-meta-displays/display/base.css">
+ *
+ * Provides:
+ *   - 600x600 box, no scroll
+ *   - dark glassmorphic primitives
+ *   - .focusable focus ring that matches D-pad nav
+ *   - .status-pill states (idle, ready, live, agent, check, error)
+ *   - utility .stage layout (top header, middle content, bottom bar)
+ *
+ * Override anything via your game's own stylesheet loaded AFTER this one.
+ */
+:root {
+  --bg: #08090b;
+  --panel: #12151a;
+  --panel-2: #181c22;
+  --line: #2a3038;
+  --ink: #f4f7fb;
+  --dim: #9ca7b4;
+  --accent: #ffbd3f;
+  --live: #34d399;
+  --agent: #a78bfa;
+  --check: #28d7ff;
+  --error: #ff3864;
+  --font: "Inter", system-ui, -apple-system, "SF Pro Rounded", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  width: 600px;
+  height: 600px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.4 var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+main, .stage {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 12px;
+  padding: 16px;
+}
+
+.topbar, .bottombar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.status-pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #0e1117;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+.status-pill.live   { color: var(--live);   border-color: var(--live); }
+.status-pill.agent  { color: var(--agent);  border-color: var(--agent); }
+.status-pill.check  { color: var(--check);  border-color: var(--check); }
+.status-pill.error  { color: var(--error);  border-color: var(--error); }
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent 35%), var(--panel);
+  padding: 14px;
+}
+
+.focusable {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-2);
+  color: var(--ink);
+  padding: 10px 14px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+.focusable.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 189, 63, 0.25);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.feed-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  color: var(--dim);
+}
+.feed-row b { color: var(--ink); }

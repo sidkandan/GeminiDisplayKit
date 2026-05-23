@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Omni Odyssey · Director's View</title>
+<style>
+  :root{
+    --bg:#0a0b12; --panel:#12141f; --line:#222538; --ink:#e8ecff; --dim:#8b93b8;
+    --director:#a78bfa; --vision:#22d3ee; --artist:#fbbf24; --system:#64748b; --error:#f87171; --ok:#34d399;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 70% -10%,#161a2e,var(--bg));color:var(--ink);
+       font:14px/1.5 ui-monospace,"SF Mono",Menlo,monospace}
+  header{display:flex;align-items:baseline;gap:14px;padding:16px 22px;border-bottom:1px solid var(--line)}
+  header h1{margin:0;font-size:18px;letter-spacing:.5px}
+  header .sub{color:var(--dim);font-size:12px}
+  header .live{margin-left:auto;color:var(--ok);font-size:12px}
+  header .live::before{content:"● ";}
+  .strip{display:flex;gap:10px;flex-wrap:wrap;padding:12px 22px;border-bottom:1px solid var(--line);background:var(--panel)}
+  .stat{background:#0e1020;border:1px solid var(--line);border-radius:10px;padding:8px 12px;min-width:88px}
+  .stat .k{color:var(--dim);font-size:10px;text-transform:uppercase;letter-spacing:.8px}
+  .stat .v{font-size:16px;font-weight:600}
+  .legend{display:flex;gap:14px;padding:8px 22px;color:var(--dim);font-size:11px;border-bottom:1px solid var(--line)}
+  .legend b{font-weight:600}
+  #feed{padding:16px 22px;display:flex;flex-direction:column;gap:8px;max-width:920px}
+  .evt{display:grid;grid-template-columns:96px 1fr auto;gap:12px;align-items:start;
+       background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--system);
+       border-radius:10px;padding:10px 14px;animation:in .18s ease}
+  @keyframes in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .who{font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.6px}
+  .step{display:inline-block;margin-top:3px;font-size:10px;color:var(--dim);border:1px solid var(--line);
+        border-radius:6px;padding:1px 6px}
+  .txt{font-size:13px}
+  .sub{color:var(--dim);font-size:11px;margin-top:3px}
+  .t{color:var(--dim);font-size:11px;white-space:nowrap}
+  .evt.director{border-left-color:var(--director)} .evt.director .who{color:var(--director)}
+  .evt.vision{border-left-color:var(--vision)}     .evt.vision .who{color:var(--vision)}
+  .evt.artist{border-left-color:var(--artist)}     .evt.artist .who{color:var(--artist)}
+  .evt.system{border-left-color:var(--system)}     .evt.system .who{color:var(--system)}
+  .evt.error{border-left-color:var(--error)}       .evt.error .who{color:var(--error)}
+  .tool .step{border-color:currentColor}
+</style>
+</head>
+<body>
+  <header>
+    <h1>OMNI · ODYSSEY</h1>
+    <span class="sub">Director's View · live managed-agent trace</span>
+    <span class="live" id="live">connecting…</span>
+  </header>
+  <div class="strip">
+    <div class="stat"><div class="k">Status</div><div class="v" id="s-status">—</div></div>
+    <div class="stat"><div class="k">Theme</div><div class="v" id="s-theme">—</div></div>
+    <div class="stat"><div class="k">Quest</div><div class="v" id="s-quest">—</div></div>
+    <div class="stat"><div class="k">Score</div><div class="v" id="s-score">0</div></div>
+    <div class="stat"><div class="k">Captured</div><div class="v" id="s-captured">0</div></div>
+    <div class="stat"><div class="k">Agent env</div><div class="v" id="s-env" style="font-size:11px">—</div></div>
+  </div>
+  <div class="legend">
+    <span><b style="color:var(--director)">DIRECTOR</b> plans &amp; adapts (managed agent)</span>
+    <span><b style="color:var(--vision)">VISION</b> verifies the photo (Flash tool)</span>
+    <span><b style="color:var(--artist)">ARTIST</b> mints the card (Nano Banana tool)</span>
+  </div>
+  <div id="feed"></div>
+
+<script>
+  const feed = document.getElementById("feed");
+  const live = document.getElementById("live");
+  const toolSteps = new Set(["verify","pass","fail","reward","card"]);
+  const fmt = ts => new Date(ts||Date.now()).toLocaleTimeString("en-US",{hour12:false});
+
+  function add(e){
+    const el = document.createElement("div");
+    const agent = e.agent || "system";
+    el.className = "evt " + agent + (toolSteps.has(e.step) ? " tool" : "");
+    const sub = e.hint ? "hint: "+e.hint
+              : e.subject ? "subject: "+e.subject
+              : e.creature ? "reward: "+e.creature
+              : (e.card && e.card.name) ? (e.card.name+" · "+(e.card.ctype||"")) : "";
+    el.innerHTML =
+      '<div><div class="who">'+agent+'</div><span class="step">'+(e.step||"")+'</span></div>'+
+      '<div><div class="txt"></div>'+(sub?'<div class="sub"></div>':'')+'</div>'+
+      '<div class="t">'+fmt(e.ts)+'</div>';
+    el.querySelector(".txt").textContent = e.text || "";
+    if (sub) el.querySelector(".sub").textContent = sub;
+    feed.appendChild(el);
+    el.scrollIntoView({behavior:"smooth",block:"end"});
+  }
+
+  async function poll(){
+    try{
+      const s = await (await fetch("/state")).json();
+      document.getElementById("s-status").textContent = s.status || "—";
+      document.getElementById("s-theme").textContent = s.theme || "—";
+      document.getElementById("s-quest").textContent = (s.questIndex!=null) ? ((s.questIndex+ (s.status==="won"?0:1))+" / "+s.total) : "—";
+      document.getElementById("s-score").textContent = s.score ?? 0;
+      document.getElementById("s-captured").textContent = (s.captured||[]).length;
+      document.getElementById("s-env").textContent = s.environmentId ? s.environmentId.slice(0,14)+"…" : "—";
+    }catch(_){}
+  }
+
+  const es = new EventSource("/trace");
+  es.onopen = () => { live.textContent = "live"; };
+  es.onerror = () => { live.textContent = "reconnecting…"; };
+  es.onmessage = ev => { try{ add(JSON.parse(ev.data)); }catch(_){} };
+
+  poll(); setInterval(poll, 2000);
+</script>
+</body>
+</html>

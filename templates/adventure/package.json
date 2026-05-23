@@ -1,0 +1,13 @@
+{
+  "name": "{{NAME}}",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "gfmd dev",
+    "deploy": "gfmd deploy"
+  },
+  "dependencies": {
+    "gemini-flash-meta-displays": "^0.1.0"
+  }
+}
