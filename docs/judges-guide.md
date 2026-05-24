@@ -82,7 +82,6 @@ In order of weight:
 ## What we do NOT want to be judged on
 
 - The PaletteQuest prototype (deliberately not imported — see anti-pattern defense for why)
-- Stale references to "Antigravity Nexus" or "Rosetta" in any archive folder — those were morning brainstorm sessions before the pivot
 - The visual polish of Prompt Arena's Flask UI — it's a bonus example, not the headline demo
 
 ## Contacting the team

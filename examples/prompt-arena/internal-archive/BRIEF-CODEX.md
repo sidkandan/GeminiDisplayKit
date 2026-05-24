@@ -1,6 +1,6 @@
 # BRIEF — Codex (%7): Battle Engine + Arena UI
 
-**PIVOT:** Stop any "Antigravity Nexus" / codebase-explain work. We are building **PROMPT ARENA**: audience-coached **original** monsters, each trained by a Gemini Managed Agent, battling in a live single-elim bracket. Non-medical, original creatures (no Pokémon / no third-party IP).
+**PIVOT:** Stop any prior-concept / codebase-explain work. We are building **PROMPT ARENA**: audience-coached **original** monsters, each trained by a Gemini Managed Agent, battling in a live single-elim bracket. Original creatures (no third-party IP).
 
 **Read first:** `./CONTRACTS.md` and `./gamedata.json`. Your interface is fully specified there.
 

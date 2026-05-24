@@ -1,13 +1,10 @@
-# PUSH-CHECKLIST — for AGY in PANE1
+# PUSH-CHECKLIST — historical operator notes
 
-> **Hand-off doc.** This repo is initialized locally, committed cleanly,
-> and ready to be pushed to GitHub as a **public** repo for the hackathon
-> submission. Sid will dispatch this to AGY (Gemini Antigravity CLI) in
-> pane `%1` to perform the final push.
->
-> **Setup:** Sid will give AGY the absolute path to the prepared repo via
-> chat. Set `REPO_DIR=<that path>` before running the commands below,
-> or `cd` there first and use `.` for any path reference.
+> **⚠️ Archived.** This was the operator runbook used to push the
+> initial public repo to GitHub on 2026-05-23. The push has long since
+> happened; this file is retained for **provenance only** so the
+> end-to-end record of how the submission was prepared stays in the
+> repo. Nothing here is a current procedure.
 
 ---
 

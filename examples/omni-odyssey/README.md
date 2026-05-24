@@ -76,4 +76,4 @@ That fires 8 Nano Banana calls in the background (~2 min total) as soon as the s
 
 ## Provenance
 
-Original orchestrator (~490 lines) lived at `GoogleIO/apps/omni-quest/orchestrator.mjs`. This version is ~250 lines — same gameplay, but the framework now owns the bridge / SSE / static / tunnel / QR / Buffer-aware response writer. Display HTML files (`index.html`, `conjure.html`, `director.html`) ported as-is. All authored on 2026-05-23 during the hackathon.
+The original orchestrator (~490 lines) was a standalone single-file prototype written earlier in the day. This version is ~250 lines — same gameplay, but the framework now owns the bridge / SSE / static / tunnel / QR / Buffer-aware response writer. Display HTML files (`index.html`, `conjure.html`, `director.html`) ported as-is. All authored on 2026-05-23 during the hackathon.

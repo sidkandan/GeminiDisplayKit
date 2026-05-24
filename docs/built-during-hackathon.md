@@ -63,15 +63,13 @@ Authored during the event:
 
 ## NEW — example games (`examples/`)
 
-These three games were prototyped earlier in the day in separate workspaces
-(`<the GoogleIO workspace on the authors machine>` and
-`<the IOHackathon workspace on the authors machine>`),
-then refactored later in the day to depend on `gdk`. All authored on
-2026-05-23.
+These three games were prototyped earlier in the day in separate local
+workspaces, then refactored later in the day to depend on `gdk`. All
+authored on 2026-05-23.
 
-- `examples/omni-odyssey/` — Nano Banana adventure, refactored to depend on the framework. The original 340-line `orchestrator.mjs` (from `GoogleIO/apps/omni-quest/`) shrinks to a 110-line `omni.config.mjs` because the framework now owns the bridge/SSE/tunnel/QR. Display HTML ported as-is.
+- `examples/omni-odyssey/` — Nano Banana adventure, refactored to depend on the framework. The original 340-line `orchestrator.mjs` shrinks to a 110-line `omni.config.mjs` because the framework now owns the bridge/SSE/tunnel/QR. Display HTML ported as-is.
 - `examples/pulseblade/` — original wearable rhythm game. Flash designs the level (structured output), Lyria scores the backing track, a managed-agent director publishes a balancing note. The original `pulseblade-server.mjs` (~500 lines of duplicated bridge code) becomes a ~100-line `omni.config.mjs`. `level.mjs` and display files ported as-is.
-- `examples/prompt-arena/` — bonus folder: the standalone Python managed-agent monster tournament, dropped in verbatim from `(5-23-26)IOHackathon/`. Sensitive `.env` excluded; per-project `.claude/` state removed. Marked as bonus in `BONUS-NOT-DEMOED.md` — not part of the live demo but the strongest single piece of `code_execution_call` evidence in the repo (captured at `examples/prompt-arena/data/traces/`).
+- `examples/prompt-arena/` — bonus folder: the standalone Python managed-agent monster tournament, dropped in verbatim from its earlier-in-the-day prototype workspace. Sensitive `.env` excluded; per-project `.claude/` state removed. Marked as bonus in `BONUS-NOT-DEMOED.md` — not part of the live demo but the strongest single piece of `code_execution_call` evidence in the repo (captured at `examples/prompt-arena/data/traces/`).
 
 **Status as of Phase 2 (the import push):** all three examples present. Two
 fully depend on the framework (Odyssey + PulseBlade). Prompt Arena still runs

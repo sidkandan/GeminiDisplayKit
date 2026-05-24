@@ -1,6 +1,6 @@
 # BRIEF — Gemini AGY (%8): The Hatchery + "ALL Gemini Tools" Showcase
 
-**PIVOT:** We are NOT shipping "Antigravity Nexus" (the wearables idea risks the hackathon's medical-advice disqualification). New project: **PROMPT ARENA** — each monster is trained by its **own Gemini Managed Agent**, then battles in a bracket. Your work is the AI core; **this is what wins the Managed Agents prize.**
+**PIVOT:** Earlier brainstorm concepts are off the table. New project: **PROMPT ARENA** — each monster is trained by its **own Gemini Managed Agent**, then battles in a bracket. Your work is the AI core; **this is what wins the Managed Agents prize.**
 
 **Read first:** `./CONTRACTS.md` and `./gamedata.json`.
 **Salvage:** the current `server.py` already has a working Interactions API call + `serialize_steps()` — reuse that exact pattern.

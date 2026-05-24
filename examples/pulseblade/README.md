@@ -43,5 +43,5 @@ Then POST to `/api/pulseblade/start` (or use the in-HUD Start button) to compose
 
 ## Built today (provenance)
 
-- `level.mjs` and `display/` files originally lived at `GoogleIO/services/omni-bridge/pulseblade-level.mjs` and `GoogleIO/apps/display-webapp/pulseblade.{html,js,css}` — all authored today in the original workspace.
+- `level.mjs` and `display/` files were originally part of a standalone prototype written earlier in the day in a separate workspace — all authored today.
 - `omni.config.mjs` is a thin (~100-line) wrapper over the framework primitives that replaces the original `pulseblade-server.mjs` (~500 lines of duplicated bridge code). The framework now owns everything that file was doing manually.
